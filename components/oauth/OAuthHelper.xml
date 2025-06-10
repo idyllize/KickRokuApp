@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="OAuthHelper" extends="Task">
+  <script type="text/brightscript" uri="OAuthHelper.brs" />
+  
+  <interface>
+    <!-- Actions -->
+    <field id="action" type="string" />
+    
+    <!-- Configuration -->
+    <field id="clientId" type="string" />
+    <field id="redirectUri" type="string" />
+    <field id="scopes" type="string" />
+    <field id="baseUrl" type="string" />
+    
+    <!-- PKCE Fields -->
+    <field id="codeVerifier" type="string" />
+    <field id="codeChallenge" type="string" />
+    <field id="state" type="string" />
+    
+    <!-- Authorization -->
+    <field id="authCode" type="string" />
+    <field id="authUrl" type="string" />
+    
+    <!-- Tokens -->
+    <field id="accessToken" type="string" />
+    <field id="refreshToken" type="string" />
+    <field id="tokenExpiration" type="integer" />
+    
+    <!-- Status -->
+    <field id="isComplete" type="boolean" />
+    <field id="isSuccess" type="boolean" />
+    <field id="error" type="string" />
+    <field id="progress" type="string" />
+  </interface>
+</component>

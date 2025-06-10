@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="KickOAuthComponent" extends="Group">
+  <script type="text/brightscript" uri="pkg:/components/oauth/KickOAuthComponent.brs" />
+  
+  <interface>
+  <!-- Public fields for parent communication -->
+  <field id="authState" type="string" value="idle" />
+  <field id="accessToken" type="string" value="" />
+  <field id="refreshToken" type="string" value="" />
+  <field id="isAuthenticated" type="boolean" value="false" />
+  <field id="isInitialized" type="boolean" value="false" />  <!-- ADD THIS LINE -->
+  <field id="errorMessage" type="string" value="" />
+  
+  <!-- Control fields -->
+  <field id="startAuth" type="boolean" value="false" />
+  <field id="authCode" type="string" value="" />
+  <field id="signOut" type="boolean" value="false" />
+</interface>
+  
+  <children>
+    <!-- OAuth Dialog Container -->
+    <Group id="dialogContainer" visible="false">
+      <!-- Will contain authentication dialogs -->
+    </Group>
+    
+    <!-- Loading Indicator -->
+    <Group id="loadingGroup" translation="[860, 490]" visible="false">
+      <Rectangle 
+        width="200" 
+        height="100"
+        color="0x1E1E1EFF"/>
+      
+      <Label 
+        id="loadingLabel"
+        translation="[100, 50]"
+        width="200"
+        height="100"
+        horizAlign="center"
+        vertAlign="center"
+        text="Authenticating..."
+        font="font:MediumSystemFont"
+        color="0xFFFFFFFF" />
+    </Group>
+  </children>
+</component>

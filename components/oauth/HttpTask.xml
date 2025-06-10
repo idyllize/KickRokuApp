@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="HttpTask" extends="Task">
+  <interface>
+    <!-- Input fields -->
+    <field id="url" type="string"/>
+    <field id="headers" type="assocarray"/>
+    <field id="method" type="string" value="GET"/>
+    <field id="postData" type="string"/>
+    <field id="timeout" type="integer" value="15000"/>
+    
+    <!-- Response fields -->
+    <field id="response" type="string"/>
+    <field id="responseCode" type="integer" value="0"/>
+    <field id="responseHeaders" type="assocarray"/>
+    <field id="responseData" type="node"/>
+    
+    <!-- Status fields -->
+    <field id="isComplete" type="boolean" value="false"/>
+    <field id="isSuccess" type="boolean" value="false"/>
+    <field id="error" type="string"/>
+    <field id="progress" type="string"/>
+    <field id="retryCount" type="integer" value="0"/>
+    <field id="requestFailed" type="boolean" value="false"/>
+    <field id="errorMessage" type="string"/>
+    
+    <!-- Enhanced control fields -->
+    <field id="maxRetries" type="integer" value="3"/>
+    <field id="retryDelay" type="integer" value="1000"/>
+    <field id="enableLogging" type="boolean" value="true"/>
+    <field id="userAgent" type="string" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"/>
+    
+    <!-- State tracking fields -->
+    <field id="isRunning" type="boolean" value="false"/>
+    <field id="isRequestActive" type="boolean" value="false"/>
+    <field id="startTime" type="integer" value="0"/>
+    <field id="duration" type="integer" value="0"/>
+    
+    <!-- Network status fields -->
+    <field id="hasNetworkConnection" type="boolean" value="true"/>
+    <field id="connectionType" type="string"/>
+    <field id="lastNetworkCheck" type="integer" value="0"/>
+    
+    <!-- Advanced response fields -->
+    <field id="contentType" type="string"/>
+    <field id="contentLength" type="integer" value="0"/>
+    <field id="serverResponse" type="string"/>
+    <field id="redirectCount" type="integer" value="0"/>
+    
+    <!-- Callback fields for events -->
+    <field id="onRequestStart" type="string"/>
+    <field id="onRequestComplete" type="string"/>
+    <field id="onRequestError" type="string"/>
+    <field id="onRequestProgress" type="string"/>
+    <field id="onRequestRetry" type="string"/>
+    
+    <!-- Control functions -->
+    <function name="startRequest"/>
+    <function name="cancelRequest"/>
+    <function name="stopRequest"/>
+    <function name="cleanup"/>
+    <function name="retry"/>
+    <function name="reset"/>
+    
+    <!-- Utility functions -->
+    <function name="checkNetworkConnectivity"/>
+    <function name="setCustomHeaders"/>
+    <function name="setUserAgent"/>
+    <function name="setTimeout"/>
+    <function name="setMaxRetries"/>
+    <function name="enableDebugLogging"/>
+    <function name="disableDebugLogging"/>
+    
+    <!-- Advanced functions -->
+    <function name="handleRetry"/>
+    <function name="handleRateLimit"/>
+    <function name="handleNetworkError"/>
+    <function name="processSuccessfulResponse"/>
+    <function name="parseProxiedKickResponse"/>
+    <function name="validateUrl"/>
+    <function name="getResponseHeaders"/>
+    <function name="getResponseMetadata"/>
+    
+    <!-- Error handling functions -->
+    <function name="setError"/>
+    <function name="setSuccess"/>
+    <function name="logError"/>
+    <function name="showError"/>
+    <function name="getHttpStatusText"/>
+    
+    <!-- State management functions -->
+    <function name="isRequestInProgress"/>
+    <function name="getRequestDuration"/>
+    <function name="getRetryCount"/>
+    <function name="canRetry"/>
+    <function name="shouldRetry"/>
+    
+    <!-- Network functions -->
+    <function name="testConnection"/>
+    <function name="pingServer"/>
+    <function name="checkApiAvailability"/>
+    <function name="measureLatency"/>
+    
+    <!-- Data processing functions -->
+    <function name="parseJsonResponse"/>
+    <function name="extractStreamData"/>
+    <function name="validateResponseData"/>
+    <function name="formatResponseForDisplay"/>
+    
+    <!-- Debug and monitoring functions -->
+    <function name="getDebugInfo"/>
+    <function name="getPerformanceMetrics"/>
+    <function name="exportRequestLog"/>
+    <function name="clearRequestHistory"/>
+  </interface>
+  
+  <script type="text/brightscript" uri="HttpTask.brs"/>
+</component>

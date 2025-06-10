@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="StreamItemComponent" extends="Group">
+  <interface>
+    <field id="streamData" type="assocarray" onChange="updateDisplay"/>
+    <field id="isSelected" type="boolean" onChange="updateSelection"/>
+  </interface>
+  
+  <children>
+    <Rectangle id="background" color="0x1a1a1a" width="400" height="120"/>
+    <Rectangle id="selectionIndicator" color="0x00ff00" width="400" height="120" visible="false"/>
+    
+    <Label id="streamerName" 
+           font="font:MediumBoldSystemFont" 
+           color="0xffffff" 
+           translation="[20, 20]"/>
+    
+    <Label id="streamTitle" 
+           font="font:SmallSystemFont" 
+           color="0xcccccc" 
+           translation="[20, 50]" 
+           maxWidth="360"/>
+    
+    <Label id="viewerCount" 
+           font="font:SmallSystemFont" 
+           color="0x00ff00" 
+           translation="[20, 80]"/>
+    
+    <Label id="category" 
+           font="font:SmallSystemFont" 
+           color="0xffaa00" 
+           translation="[200, 80]"/>
+    
+    <Label id="statusIndicator" 
+           text="LIVE" 
+           font="font:SmallSystemFont" 
+           color="0xff0000" 
+           translation="[330, 20]"/>
+  </children>
+  
+  <script type="text/brightscript" uri="StreamItemComponent.brs"/>
+</component>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="KickLinkScene" extends="Scene">
+  <script type="text/brightscript" uri="KickLinkScene.brs"/>
+  
+  <children>
+    <!-- Background -->
+    <Rectangle id="backgroundRect" 
+               width="1920" 
+               height="1080" 
+               color="0x000000FF"/>
+    
+    <!-- Header -->
+    <Rectangle id="headerRect" 
+               width="1920" 
+               height="120" 
+               color="0x1a1a1aFF"/>
+    
+    <Label id="titleLabel" 
+           translation="[60, 30]" 
+           width="800" 
+           height="60" 
+           text="KickRoku - Unofficial Kick.com Viewer" 
+           font="font:LargeBoldSystemFont" 
+           color="0x00FF00FF"/>
+    
+    <!-- Status Area -->
+    <Label id="statusLabel" 
+           translation="[60, 140]" 
+           width="1800" 
+           height="40" 
+           text="Press OK to select a streamer" 
+           font="font:MediumSystemFont" 
+           color="0xFFFFFFFF"/>
+    
+    <!-- Main Content Area -->
+    <Rectangle id="contentRect" 
+               translation="[60, 200]" 
+               width="1800" 
+               height="800" 
+               color="0x333333FF"/>
+    
+    <!-- Video Player (initially hidden) -->
+    <Video id="videoPlayer" 
+           translation="[80, 220]" 
+           width="1760" 
+           height="760" 
+           visible="false"/>
+    
+    <!-- Stream Info Panel -->
+    <Rectangle id="infoPanel" 
+               translation="[80, 220]" 
+               width="400" 
+               height="300" 
+               color="0x444444FF" 
+               visible="true"/>
+    
+    <Label id="streamerNameLabel" 
+           translation="[100, 240]" 
+           width="360" 
+           height="40" 
+           text="No streamer selected" 
+           font="font:MediumBoldSystemFont" 
+           color="0x00FF00FF"/>
+    
+    <Label id="streamTitleLabel" 
+           translation="[100, 290]" 
+           width="360" 
+           height="60" 
+           text="" 
+           font="font:SmallSystemFont" 
+           color="0xFFFFFFFF" 
+           wrap="true"/>
+    
+    <Label id="viewerCountLabel" 
+           translation="[100, 360]" 
+           width="360" 
+           height="30" 
+           text="" 
+           font="font:SmallSystemFont" 
+           color="0xFFFF00FF"/>
+    
+    <Label id="categoryLabel" 
+           translation="[100, 400]" 
+           width="360" 
+           height="30" 
+           text="" 
+           font="font:SmallSystemFont" 
+           color="0x00FFFFFF"/>
+    
+    <Label id="statusIndicator" 
+           translation="[100, 440]" 
+           width="360" 
+           height="30" 
+           text="🔴 Offline" 
+           font="font:SmallSystemFont" 
+           color="0xFF0000FF"/>
+    
+    <!-- Instructions Panel -->
+    <Rectangle id="instructionsPanel" 
+               translation="[500, 220]" 
+               width="500" 
+               height="300" 
+               color="0x444444FF"/>
+    
+    <Label id="instructionsTitle" 
+           translation="[520, 240]" 
+           width="460" 
+           height="40" 
+           text="Controls:" 
+           font="font:MediumBoldSystemFont" 
+           color="0x00FF00FF"/>
+    
+    <Label id="instructionsText" 
+           translation="[520, 290]" 
+           width="460" 
+           height="200" 
+           font="font:SmallSystemFont" 
+           color="0xFFFFFFFF" 
+           wrap="true"
+           text="• OK - Select streamer&#10;• Options - Show menu&#10;• Back - Exit/Stop&#10;• Play/Pause - Control playback&#10;• Info - Stream details&#10;&#10;Popular streamers: Tectone, Adin Ross, xQc, Trainwreck, HasanAbi"/>
+    
+    <!-- Loading Spinner (initially hidden) -->
+    <BusySpinner id="loadingSpinner" 
+                 translation="[960, 540]" 
+                 visible="false"/>
+    
+    <!-- Connection Status -->
+    <Label id="connectionStatus" 
+           translation="[1400, 140]" 
+           width="400" 
+           height="40" 
+           text="🌐 Ready" 
+           font="font:SmallSystemFont" 
+           color="0x00FF00FF" 
+           horizAlign="right"/>
+  </children>
+</component>
