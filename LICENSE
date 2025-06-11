@@ -1,23 +1,42 @@
-# MIT License with No Commercial Sale
+# MIT License with Commercial Sale Restriction
 
 Copyright (c) 2025 Idyllize
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to use,
-copy, modify, merge, publish, distribute, sublicense, and permit persons to
-whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-1. The above copyright notice and this permission notice shall be included in
-   all copies or substantial portions of the Software.
-2. The Software may not be sold or offered for sale in any form, whether as
-   a standalone product, part of a commercial package, or otherwise, for
-   monetary gain. This restriction applies to all derivatives and distributions
-   of the Software.
+## Conditions
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+1. **Attribution**: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. For derivative works, attribution to the original author must be clearly displayed in the documentation and, where applicable, the user interface.
+
+2. **Non-Commercial Sale**: The Software, in whole or in part, may not be sold, offered for sale, or distributed for direct monetary compensation. Prohibited activities include, but are not limited to:
+   - Selling the Software as a standalone product or service
+   - Including the Software in paid software packages or applications
+   - Charging fees for access to, distribution of, or use of the Software
+   - Monetizing the Software through subscriptions, paywalls, or other direct payment mechanisms
+
+3. **Permitted Commercial Use**: The following commercial activities are explicitly permitted, provided they comply with this license:
+   - Internal use of the Software within commercial organizations for operational purposes
+   - Providing consulting, support, or implementation services related to the Software
+   - Distributing the Software as part of free, open-source projects or repositories
+   - Using the Software for educational, training, or research purposes in commercial or academic institutions
+
+4. **Derivative Works**: Any modified versions or derivative works of the Software must:
+   - Comply with all conditions of this license
+   - Clearly document all changes made to the original Software
+   - Be distributed under the same license terms, ensuring no additional restrictions are imposed
+
+5. **Third-Party Services**: This license does not restrict the use of third-party APIs, services, or platforms that the Software may integrate with, provided such use adheres to the respective terms of service of those third parties.
+
+6. **No Endorsement**: Use of the Software does not imply endorsement by the copyright holder. Users may not use the copyright holder's name, logo, or trademarks to promote products or services without prior written consent.
+
+## Disclaimer of Warranty
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+## Contact
+
+For permissions beyond the scope of this license or inquiries about commercial use, please contact: [Idyllize]
+
+## Notes
+
+*This is a modified MIT License designed to balance open-source principles with restrictions on direct commercial sale. For clarification or licensing exceptions, please contact the copyright holder.*
