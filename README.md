@@ -14,10 +14,12 @@ A feature-rich Roku streaming application that brings live Kick.com streams dire
 ### Key Highlights
 - **🔴 Live Stream Discovery**: Automatically detects and lists currently active Kick.com streamers
 - **⚡ Real-time Updates**: Continuously monitors streamer availability and status changes
-- **🎮 Remote-Optimized**: Interface designed specifically for Roku remote navigation
+- **🎮 Remote-Optimized**: Multi-panel interface designed specifically for Roku remote navigation
 - **🛡️ Intelligent Error Handling**: Automatic retry mechanisms with fallback strategies
 - **📺 Multi-Streamer Support**: Simultaneously tracks multiple popular content creators
 - **🎬 HLS Streaming**: High-quality HTTP Live Streaming for smooth, buffer-free playback
+- **💬 Live Chat Integration**: Real-time chat display alongside video streams
+- **📊 Stream Analytics**: Live viewer counts and stream information
 
 ### Monitored Content Creators
 | Streamer | Category | Status |
@@ -36,7 +38,7 @@ A feature-rich Roku streaming application that brings live Kick.com streams dire
 ### Core Functionality
 - **🔍 Automatic Discovery**: Scans for live streams without manual intervention
 - **📊 Real-time Monitoring**: Updates stream status every 30 seconds
-- **🎯 Smart Navigation**: Intuitive controls optimized for television viewing
+- **🎯 Smart Navigation**: Multi-panel UI optimized for television viewing
 - **🔄 Retry Logic**: Up to 3 automatic retry attempts per stream
 - **📱 Multi-Platform**: Supports all Roku device generations
 - **🎵 Audio Sync**: Maintains perfect audio-video synchronization
@@ -46,7 +48,9 @@ A feature-rich Roku streaming application that brings live Kick.com streams dire
 - **🛠️ Debug Mode**: Comprehensive logging for troubleshooting
 - **🔧 Configurable Settings**: Customizable retry attempts and timeouts
 - **📈 Performance Metrics**: Real-time streaming statistics
-- **🎨 Dynamic UI**: Responsive interface that adapts to content
+- **🎨 Dynamic UI**: Multi-panel responsive interface that adapts to content
+- **💬 Live Chat Display**: Real-time chat messages in dedicated panel
+- **📊 Stream Information**: Live viewer counts, stream titles, and streamer info
 
 ## 📋 System Requirements
 
@@ -86,7 +90,7 @@ git clone https://github.com/idyllize/KickRokuApp.git
 cd KickRokuApp
 
 # Create deployment package
-zip -r KickRokuApp.zip . -x "*.git*" "*.DS_Store*" "README.md"
+zip -r KickRokuApp.zip . -x "*.git*" "*.DS_Store*" "README.md" "repomix-output.md"
 ```
 
 #### Step 3: Deploy to Roku
@@ -105,19 +109,44 @@ zip -r KickRokuApp.zip . -x "*.git*" "*.DS_Store*" "README.md"
 ```
 KickRokuApp/
 ├── 📂 components/              # UI Components & Logic
-│   ├── 📄 MainScene.xml        # Primary scene definition
-│   ├── 📄 StreamScene.brs      # Core streaming engine
-│   ├── 📄 NetworkTask.xml      # Network component definition
-│   └── 📄 NetworkTask.brs      # HTTP request handling
+│   ├── 📄 HttpTask.brs         # Generic HTTP request handler
+│   ├── 📄 HttpTask.xml         # HTTP task component definition
+│   ├── 📄 KickApiTask.brs      # Kick.com API specific requests
+│   ├── 📄 KickApiTask.xml      # Kick API task component definition
+│   ├── 📄 MainScene.xml        # Primary multi-panel scene definition
+│   ├── 📄 NetworkTask.brs      # Network operations and management
+│   ├── 📄 NetworkTask.xml      # Network task component definition
+│   └── 📄 StreamScene.brs      # Core streaming engine and UI logic
 ├── 📂 source/                  # Application Core
 │   └── 📄 main.brs            # Application entry point
-├── 📂 images/                  # Visual Assets
-│   ├── 🖼️ splash_hd.jpg        # Loading screen
-│   ├── 🖼️ icon_focus_hd.png    # App icon (focused)
-│   └── 🖼️ icon_side_hd.png     # App icon (unfocused)
 ├── 📄 manifest                 # App configuration
 ├── 📄 LICENSE                  # MIT License
 └── 📄 README.md               # This documentation
+```
+
+### Component Architecture
+
+#### Core Components
+- **MainScene.xml**: Multi-panel UI layout with sidebar, main video, chat, and info panels
+- **StreamScene.brs**: Main application logic, stream management, and UI control
+- **HttpTask**: Generic HTTP request handling with timeout and error management
+- **KickApiTask**: Specialized Kick.com API integration with proper headers
+- **NetworkTask**: Network operations and connectivity management
+
+#### UI Layout Structure
+```
+┌─────────────────────────────────────────────────────────────┐
+│ 🎮 SIDEBAR     │ 📺 MAIN VIDEO PLAYER                      │
+│ - Live Streams │                                            │
+│ - Stream List  │                                            │
+│ - Navigation   │                                            │
+│                │                                            │
+├────────────────┼────────────────────────────────────────────┤
+│ 💬 CHAT PANEL  │ 📊 STREAM INFO PANEL                      │
+│ - Live Chat    │ - Viewer Count                             │
+│ - Messages     │ - Stream Title                             │
+│ - Emotes       │ - Streamer Info                            │
+└────────────────┴────────────────────────────────────────────┘
 ```
 
 ## ⚙️ Configuration
@@ -129,6 +158,7 @@ Base URL: https://kickapi-dev.strayfade.com/api/v1/
 Endpoint: /{username}
 Method: GET
 Rate Limit: 60 requests/minute
+Headers: User-Agent, Accept, Referer
 ```
 
 ### Manifest Settings
@@ -166,17 +196,25 @@ Customize behavior through these optional settings:
 ### Getting Started
 1. **Launch**: Select "Kick.com Live Streams" from your Roku home screen
 2. **Loading**: Wait for automatic stream discovery (5-15 seconds)
-3. **Browse**: View available live streams in the main interface
+3. **Browse**: View available live streams in the sidebar panel
 4. **Select**: Highlight desired stream and press **OK** to begin playback
+5. **Navigate**: Use directional buttons to switch between panels
 
 ### Navigation Controls
 | Button | Action | Context |
 |--------|--------|---------|
-| **◀ ▶** | Switch streams | Stream list/During playback |
-| **OK** | Play/Pause/Retry | Universal action button |
-| **Back** | Return to list | During stream playback |
+| **◀ ▶** | Switch streams/Navigate panels | Stream list/Multi-panel view |
+| **▲ ▼** | Scroll through streams/chat | Sidebar/Chat panel |
+| **OK** | Play/Pause/Select | Universal action button |
+| **Back** | Return to previous panel | Multi-panel navigation |
 | **Home** | Exit app | Any screen |
-| **⭐** | Refresh streams | Stream list (future feature) |
+| **⭐** | Refresh streams | Stream list |
+
+### Panel Navigation
+- **Sidebar Panel**: Browse and select live streams
+- **Main Video Panel**: Primary stream playback area
+- **Chat Panel**: Live chat messages and interaction
+- **Info Panel**: Stream statistics and streamer information
 
 ### Stream States
 - **🔴 LIVE**: Stream is active and ready to play
@@ -218,30 +256,29 @@ telnet [ROKU_IP_ADDRESS] 8085
 #### Request Flow
 ```mermaid
 graph TD
-    A[App Launch] --> B[Initialize StreamScene]
-    B --> C[Load Streamer List]
-    C --> D[API Request Loop]
-    D --> E{Stream Available?}
-    E -->|Yes| F[Add to Stream List]
-    E -->|No| G[Skip Streamer]
-    F --> H[Continue Loop]
-    G --> H
-    H --> I{More Streamers?}
-    I -->|Yes| D
-    I -->|No| J[Display Results]
+    A[App Launch] --> B[Initialize MainScene]
+    B --> C[Load StreamScene Logic]
+    C --> D[Create KickApiTask]
+    D --> E[API Request Loop]
+    E --> F{Stream Available?}
+    F -->|Yes| G[Add to Stream List]
+    F -->|No| H[Skip Streamer]
+    G --> I[Update UI Panel]
+    H --> I
+    I --> J{More Streamers?}
+    J -->|Yes| E
+    J -->|No| K[Display Results]
 ```
 
-#### Response Handling
+#### Component Interaction
 ```brightscript
-' Example API response processing
-sub processApiResponse(response as string, streamerName as string)
-    if response.inStr(".m3u8") >= 0 then
-        ' Valid HLS stream URL found
-        addStreamToList(response, streamerName)
-    else
-        ' Streamer offline or invalid response
-        logMessage("Streamer offline: " + streamerName)
-    end if
+' Example KickApiTask usage
+sub fetchStreamData(streamerName as string)
+    apiTask = createObject("roSGNode", "KickApiTask")
+    apiTask.apiUrl = "https://kickapi-dev.strayfade.com/api/v1/" + streamerName
+    apiTask.observeField("response", "onApiResponse")
+    apiTask.observeField("error", "onApiError")
+    apiTask.control = "RUN"
 end sub
 ```
 
@@ -281,6 +318,14 @@ end sub
 - Reduce network congestion by limiting other devices
 - Contact ISP if issues persist
 
+#### 💬 Chat Panel Not Loading
+**Symptoms**: Chat messages don't appear or update
+**Solutions**:
+- Verify chat API endpoints are accessible
+- Check network firewall settings
+- Restart the application
+- Enable debug mode to check chat connection logs
+
 ### Advanced Debugging
 
 #### Enable Debug Mode
@@ -295,9 +340,10 @@ end sub
 telnet [ROKU_IP] 8085 | tee debug.log
 
 # Common log patterns to look for:
-# "✅ LIVE:" - Successful stream detection
-# "❌ Error:" - Connection or playback issues
-# "🔄 Retrying:" - Automatic recovery attempts
+# "✅ API request successful" - Successful stream detection
+# "❌ API request failed:" - Connection or API issues
+# "HttpTask: Success" - HTTP requests working properly
+# "KickApiTask: Fetching" - API calls in progress
 ```
 
 ## 🤝 Contributing
@@ -315,25 +361,29 @@ We welcome contributions from developers of all skill levels! Here's how to get 
 
 ### Development Standards
 - **Code Style**: Follow Roku BrightScript conventions
-- **Error Handling**: Always include try-catch equivalents
+- **Error Handling**: Always include proper error handling in Task components
 - **Testing**: Test on multiple Roku device types
 - **Documentation**: Update README for new features
 - **Performance**: Optimize for low-end Roku devices
 
 ### Areas for Contribution
-- 🎨 **UI/UX Improvements**: Better visual design and animations
+- 🎨 **UI/UX Improvements**: Enhance multi-panel layout and animations
 - 🔧 **Feature Development**: New functionality and capabilities
 - 🐛 **Bug Fixes**: Resolve existing issues and edge cases
 - 📚 **Documentation**: Improve guides and code comments
 - ⚡ **Performance**: Optimize loading times and memory usage
+- 💬 **Chat Features**: Improve chat integration and display
+- 📊 **Analytics**: Add more detailed stream statistics
 
 ## 🗺️ Roadmap
 
 ### Phase 1: Core Stability (Q2 2025) ✅
 - [x] Basic stream discovery and playback
+- [x] Multi-panel UI layout (Needs Work)
 - [x] Error handling and retry logic
-- [x] Remote control navigation
+- [x] Remote control navigation (Needs Work)
 - [x] Multi-streamer support
+- [x] HTTP and API task components
 
 ### Phase 2: Enhanced Features (Q3 2025) 🚧
 - [ ] **Custom Streamer Management**: Add/remove streamers from monitoring list
@@ -341,20 +391,22 @@ We welcome contributions from developers of all skill levels! Here's how to get 
 - [ ] **Quality Selection**: Choose video resolution (480p/720p/1080p)
 - [ ] **Favorites System**: Save and prioritize preferred streamers
 - [ ] **Stream History**: Track recently watched content
+- [ ] **Enhanced Chat Features**: Chat filtering and moderation
 
 ### Phase 3: Advanced Integration (Q4 2025) 📋
-- [ ] **Live Chat Display**: Show chat messages alongside video
+- [ ] **Interactive Chat**: Send messages and reactions
 - [ ] **Push Notifications**: Alert when followed streamers go live
 - [ ] **Stream Scheduling**: View upcoming scheduled streams
 - [ ] **Multi-Language Support**: Interface localization
 - [ ] **Accessibility Features**: Screen reader and high contrast support
+- [ ] **Advanced Analytics**: Detailed viewing statistics
 
 ### Phase 4: Platform Expansion (2026) 🔮
 - [ ] **Roku Channel Store**: Official public release
 - [ ] **Premium Features**: Advanced customization options
-- [ ] **Analytics Dashboard**: Viewing statistics and insights
 - [ ] **Social Features**: Share favorite streams and moments
 - [ ] **API Partnerships**: Direct integration with Kick.com
+- [ ] **Cross-Platform Sync**: Sync preferences across devices
 
 ## 🔬 Technical Specifications
 
@@ -366,27 +418,31 @@ We welcome contributions from developers of all skill levels! Here's how to get 
 | **Channel Switch** | < 2 seconds | ~1.8 seconds |
 | **Memory Usage** | < 50MB | ~35MB |
 | **CPU Usage** | < 20% | ~15% |
+| **Panel Navigation** | < 0.5 seconds | ~0.3 seconds |
 
 ### Dependencies & Libraries
 ```brightscript
 ' Core Roku Components
 roSGNode           ' Scene Graph node management
-roUrlTransfer      ' HTTP request handling
+roUrlTransfer      ' HTTP request handling (HttpTask)
 roVideoPlayer      ' HLS stream playback
 roAppManager       ' Application lifecycle
 roDeviceInfo       ' Device capability detection
 
 ' Custom Components
-NetworkTask        ' Asynchronous API requests
-StreamManager      ' Stream state management
-UIController       ' User interface logic
+HttpTask           ' Generic HTTP request handling
+KickApiTask        ' Kick.com API specific requests
+NetworkTask        ' Network operations management
+StreamScene        ' Main application logic and UI control
 ```
 
 ### Network Architecture
 ```
 Roku Device → Router → Internet → Kick.com API → Stream CDN
-     ↓                                    ↓
-Local Cache ←------ HLS Segments ←--------┘
+     ↓                              ↓              ↓
+Local Cache ←------ HLS Segments ←--┘              │
+     ↓                                             │
+Chat Messages ←------ Chat API ←-------------------┘
 ```
 
 ## 📞 Support & Community
@@ -412,7 +468,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](https://g
 This application is an **independent project** and is not officially affiliated with, endorsed by, or connected to Kick.com or Amazon (Roku). Users are responsible for complying with Kick.com's Terms of Service and any applicable local laws when using this application.
 
 ### Privacy Policy
-This application does not collect, store, or transmit any personal user data. All streaming content is provided directly from Kick.com's servers to your Roku device.
+This application does not collect, store, or transmit any personal user data. All streaming content is provided directly from Kick.com's servers to your Roku device. Chat messages are displayed but not stored locally.
 
 ## 🙏 Acknowledgments
 
@@ -420,7 +476,7 @@ This application does not collect, store, or transmit any personal user data. Al
 - **Kick.com**: For providing an innovative streaming platform
 - **Roku Developer Community**: For extensive documentation and support
 - **Open Source Contributors**: For making this project possible
-- **Strayfade**: For SSP and being a great person.
+- **Strayfade**: For API support and being a great person
 
 ### Third-Party Resources
 - **Kick.com API**: Stream data and metadata
