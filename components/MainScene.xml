@@ -181,47 +181,47 @@
       <!-- ========== ENHANCED STREAM VIDEO BOX ========== -->
       <Group id="streamVideoPanel" translation="[20, 20]">
         <Rectangle id="streamFrame" 
-                   width="1080" 
-                   height="608" 
+                   width="964" 
+                   height="544" 
                    color="0x404040FF" />
         <Rectangle id="streamFrameGradient" 
-                   width="1080" 
-                   height="608" 
+                   width="964" 
+                   height="544" 
                    color="0x53FC1815" 
                    translation="[0, 0]" />
         <Rectangle id="streamFrameGlow" 
-                   width="1088" 
-                   height="616" 
+                   width="972" 
+                   height="552" 
                    color="0x53FC1820" 
                    translation="[-4, -4]" />
         <Rectangle id="streamInnerBg" 
-                   width="1076" 
-                   height="604" 
+                   width="960" 
+                   height="540" 
                    color="0x000000FF" 
                    translation="[2, 2]" />
         <Video id="videoPlayer" 
                translation="[2, 2]" 
-               width="1076" 
-               height="604" 
+               width="960" 
+               height="540" 
                visible="true" 
                enableUI="false" 
                scaleMode="scaleToFit" />
         <Rectangle id="videoControlsBg" 
-                   width="1076" 
+                   width="960" 
                    height="60" 
                    color="0x00000090" 
-                   translation="[2, 544]" 
+                   translation="[2, 480]" 
                    visible="false" />
         <Rectangle id="videoControlsGradient" 
-                   width="1076" 
+                   width="960" 
                    height="60" 
                    color="0x53FC1815" 
-                   translation="[2, 544]" 
+                   translation="[2, 480]" 
                    visible="false" />
         <Label id="videoControlsText" 
                text="▶️ PLAY  ⏸️ PAUSE  🔊 VOLUME  ⚙️ SETTINGS  🔄 REFRESH" 
-               translation="[20, 560]" 
-               width="1036" 
+               translation="[20, 496]" 
+               width="920" 
                height="30" 
                font="font:MediumBoldSystemFont" 
                color="0x53FC18FF" 
@@ -230,20 +230,20 @@
                    width="100" 
                    height="40" 
                    color="0x53FC18E0" 
-                   translation="[970, 10]" />
+                   translation="[860, 10]" />
         <Rectangle id="qualityGradient" 
                    width="100" 
                    height="40" 
                    color="0x3DD80A30" 
-                   translation="[970, 10]" />
+                   translation="[860, 10]" />
         <Rectangle id="qualityGlow" 
                    width="108" 
                    height="48" 
                    color="0x53FC1830" 
-                   translation="[966, 6]" />
+                   translation="[856, 6]" />
         <Label id="qualityIndicator" 
                text="4K HDR" 
-               translation="[985, 23]" 
+               translation="[875, 23]" 
                width="70" 
                height="20" 
                font="font:MediumBoldSystemFont" 
@@ -266,7 +266,7 @@
                    color="0x00000080" 
                    translation="[100, 10]" />
         <Label id="viewerOverlay" 
-               text="👥 8,483" 
+               text="👥 40,373,679" 
                translation="[110, 18]" 
                width="100" 
                height="15" 
@@ -275,7 +275,7 @@
       </Group>
       
       <!-- ========== ENHANCED CHAT PANEL ========== -->
-      <Group id="chatPanel" translation="[1120, 20]">
+      <Group id="chatPanel" translation="[1120, 20]" visible="true">
         <Rectangle id="chatBg" 
                    width="500" 
                    height="608" 
@@ -344,30 +344,13 @@
                    height="2" 
                    color="0x53FC1840" 
                    translation="[10, 76]" />
-        <Label id="chatMessages" 
-               text="🎉 Welcome to the stream! 🎮
-
-🔥 cheesur: Hey everyone! Thanks for joining!
-👋 viewer123: What's up! Love the setup!
-💯 gamer456: This is sick! Great quality!
-🎯 streamer_fan: Been waiting for this!
-⚡ quick_chat: Epic stream as always!
-🎮 pro_gamer: Your skills are insane!
-🔴 live_watcher: Best streamer on Kick!
-💪 strong_viewer: Keep it up legend!
-🎊 party_time: This chat is fire! 🔥
-🏆 top_fan: You're crushing it!
-💎 diamond_viewer: Premium content!
-🚀 rocket_chat: To the moon!
-⭐ star_watcher: Amazing as always!
-🎵 music_lover: Great soundtrack too!
-
-💬 Chat updates live..." 
-               translation="[20, 90]" 
-               width="460" 
-               height="490" 
-               font="font:SmallSystemFont" 
-               color="0xFFFFFFFF" />
+        <LabelList id="chatMessages" 
+                   translation="[20, 90]" 
+                   itemSize="[460, 30]" 
+                   itemSpacing="5" 
+                   width="460" 
+                   height="490" 
+                   visible="true" />
         <Rectangle id="chatInputBg" 
                    width="480" 
                    height="30" 
@@ -472,7 +455,7 @@
                    color="0x53FC18FF" 
                    translation="[1180, 15]" />
         <Label id="viewerCount" 
-               text="👥 8,483 viewers" 
+               text="👥 40,373,679 viewers" 
                translation="[1195, 25]" 
                width="170" 
                height="20" 
