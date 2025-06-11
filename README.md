@@ -420,7 +420,7 @@ This application does not collect, store, or transmit any personal user data. Al
 - **Kick.com**: For providing an innovative streaming platform
 - **Roku Developer Community**: For extensive documentation and support
 - **Open Source Contributors**: For making this project possible
-- **Beta Testers**: For helping identify and resolve issues
+- **Strayfade**: For SSP and being a great person.
 
 ### Third-Party Resources
 - **Kick.com API**: Stream data and metadata
