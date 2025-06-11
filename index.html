@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
       :root {
-          /* Kick.com Official Colors */
           --kick-green: #53fc18;
           --kick-dark-green: #3dd80a;
           --kick-bg-dark: #0f0f23;
@@ -20,8 +19,6 @@
           --kick-text: #ffffff;
           --kick-text-muted: #b3b3cc;
           --kick-accent: #ff6b35;
-          
-          /* Additional Professional Colors */
           --shadow-light: rgba(83, 252, 24, 0.1);
           --shadow-medium: rgba(83, 252, 24, 0.2);
           --shadow-heavy: rgba(0, 0, 0, 0.5);
@@ -45,7 +42,6 @@
           overflow-x: hidden;
       }
 
-      /* Animated Background */
       .animated-bg {
           position: fixed;
           top: 0;
@@ -77,14 +73,12 @@
           66% { transform: translate(-100px, 50px) rotate(240deg); }
       }
 
-      /* Container System */
       .container {
           max-width: 1400px;
           margin: 0 auto;
           padding: 0 20px;
       }
 
-      /* Header/Hero Section */
       .hero {
           min-height: 100vh;
           display: flex;
@@ -168,7 +162,6 @@
           font-weight: 400;
       }
 
-      /* Status Badges */
       .status-badges {
           display: flex;
           justify-content: center;
@@ -198,7 +191,6 @@
           box-shadow: 0 10px 25px rgba(83, 252, 24, 0.2);
       }
 
-      /* CTA Buttons */
       .cta-section {
           display: flex;
           justify-content: center;
@@ -245,7 +237,6 @@
           box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
       }
 
-      /* Content Sections */
       .section {
           padding: 100px 0;
           position: relative;
@@ -270,7 +261,6 @@
           margin: 0 auto 60px;
       }
 
-      /* Features Grid */
       .features-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -313,10 +303,8 @@
       .feature-icon {
           font-size: 3rem;
           margin-bottom: 25px;
-          background: var(--gradient-primary);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          /* Remove gradient effect from emojis to keep natural colors */
+          color: inherit;
       }
 
       .feature-card h3 {
@@ -331,7 +319,6 @@
           line-height: 1.7;
       }
 
-      /* UI Mockup Section */
       .ui-showcase {
           background: rgba(42, 42, 62, 0.3);
           border-radius: 30px;
@@ -428,56 +415,10 @@
           font-size: 2.5rem;
           margin-bottom: 15px;
           display: block;
+          /* Keep natural emoji colors */
+          color: inherit;
       }
 
-      /* Streamers Table */
-      .streamers-section {
-          background: rgba(42, 42, 62, 0.2);
-          border-radius: 30px;
-          padding: 60px 40px;
-          margin: 60px 0;
-          border: 1px solid rgba(83, 252, 24, 0.1);
-      }
-
-      .streamers-table {
-          width: 100%;
-          border-collapse: collapse;
-          background: var(--kick-gray);
-          border-radius: 20px;
-          overflow: hidden;
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-      }
-
-      .streamers-table th {
-          background: var(--gradient-primary);
-          color: var(--kick-bg-dark);
-          padding: 20px;
-          text-align: left;
-          font-weight: 700;
-          font-size: 1.1rem;
-      }
-
-      .streamers-table td {
-          padding: 18px 20px;
-          border-bottom: 1px solid rgba(83, 252, 24, 0.1);
-          color: var(--kick-text);
-      }
-
-      .streamers-table tr:hover {
-          background: rgba(83, 252, 24, 0.05);
-      }
-
-      .streamer-name {
-          font-weight: 600;
-          color: var(--kick-green);
-      }
-
-      .status-active {
-          color: var(--kick-green);
-          font-weight: 600;
-      }
-
-      /* Performance Metrics */
       .metrics-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -524,7 +465,6 @@
           font-size: 0.95rem;
       }
 
-      /* Installation Steps */
       .installation-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -573,7 +513,6 @@
           line-height: 1.6;
       }
 
-      /* Code Block */
       .code-section {
           margin: 60px 0;
       }
@@ -615,7 +554,6 @@
           color: var(--kick-green);
       }
 
-      /* Footer */
       .footer {
           background: var(--kick-bg-darker);
           padding: 80px 0 40px;
@@ -654,13 +592,6 @@
       .footer-text {
           color: var(--kick-text-muted);
           font-size: 0.9rem;
-      }
-
-      /* Responsive Design */
-      @media (max-width: 1200px) {
-          .container {
-              padding: 0 30px;
-          }
       }
 
       @media (max-width: 768px) {
@@ -703,22 +634,9 @@
               align-items: center;
           }
 
-          .status-badges {
-              justify-content: center;
-          }
-
           .footer-links {
               flex-direction: column;
               gap: 20px;
-          }
-
-          .streamers-table {
-              font-size: 0.9rem;
-          }
-
-          .streamers-table th,
-          .streamers-table td {
-              padding: 12px 15px;
           }
       }
 
@@ -738,37 +656,6 @@
           .section-title {
               font-size: 2rem;
           }
-      }
-
-      /* Scroll Animations */
-      @keyframes slideInUp {
-          from {
-              opacity: 0;
-              transform: translateY(50px);
-          }
-          to {
-              opacity: 1;
-              transform: translateY(0);
-          }
-      }
-
-      .animate-on-scroll {
-          animation: slideInUp 0.8s ease-out;
-      }
-
-      /* Loading Animation */
-      .loading-spinner {
-          display: inline-block;
-          width: 20px;
-          height: 20px;
-          border: 2px solid rgba(83, 252, 24, 0.3);
-          border-radius: 50%;
-          border-top-color: var(--kick-green);
-          animation: spin 1s ease-in-out infinite;
-      }
-
-      @keyframes spin {
-          to { transform: rotate(360deg); }
       }
   </style>
 </head>
@@ -920,6 +807,88 @@
     </div>
   </section>
 
-  <!-- Streamers Section -->
+  <!-- Performance Metrics -->
   <section class="section">
-    <div class="container
+    <div class="container">
+      <h2 class="section-title">Performance Metrics</h2>
+      <p class="section-subtitle">
+        Optimized for maximum performance and reliability on Roku devices with industry-leading streaming technology.
+      </p>
+      
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-value">&lt;2s</div>
+          <div class="metric-label">Stream Load Time</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-value">99.9%</div>
+          <div class="metric-label">Uptime Reliability</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-value">4K</div>
+          <div class="metric-label">Max Resolution</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-value">60fps</div>
+          <div class="metric-label">Smooth Playback</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Installation Section -->
+  <section class="section" id="installation">
+    <div class="container">
+      <h2 class="section-title">Quick Installation</h2>
+      <p class="section-subtitle">
+        Get KickRokuApp running on your Roku device in minutes with our streamlined installation process.
+      </p>
+      
+      <div class="installation-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3>Enable Developer Mode</h3>
+          <p>Navigate to Settings > System > Advanced system settings > Developer options and enable Developer mode on your Roku device.</p>
+        </div>
+        
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3>Download Source Code</h3>
+          <p>Clone or download the KickRokuApp repository from GitHub to your local development machine for deployment.</p>
+        </div>
+        
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3>Deploy to Roku</h3>
+          <p>Use the Roku developer tools or web interface to sideload the application directly to your Roku device for testing.</p>
+        </div>
+      </div>
+      
+      <div class="code-section">
+        <div class="code-block">
+          <pre><code><span class="code-comment"># Clone the repository</span>
+<span class="code-command">git clone https://github.com/idyllize/KickRokuApp.git</span>
+<span class="code-command">cd KickRokuApp</span>
+
+<span class="code-comment"># Package for Roku deployment</span>
+<span class="code-command">zip -r KickRokuApp.zip .</span>
+
+<span class="code-comment"># Deploy via web interface at http://roku-ip:8080</span></code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="https://github.com/idyllize/KickRokuApp" class="footer-link">
+            <i class="fab fa-github"></i>
+            GitHub Repository
+          </a>
+          <a href
