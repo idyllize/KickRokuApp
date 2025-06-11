@@ -41,7 +41,28 @@
           min-height: 100vh;
           overflow-x: hidden;
       }
+.watermark {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(83, 252, 24, 0.1);
+    border: 1px solid var(--kick-green);
+    color: var(--kick-green);
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(83, 252, 24, 0.2);
+}
 
+.watermark:hover {
+    background: rgba(83, 252, 24, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(83, 252, 24, 0.3);
+}
       .animated-bg {
           position: fixed;
           top: 0;
@@ -881,7 +902,9 @@
       </div>
     </div>
   </section>
-
+<div class="watermark">
+    Made by Idyllize
+</div>
   <!-- Footer -->
   <footer class="footer">
     <div class="container">
