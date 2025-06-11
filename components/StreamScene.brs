@@ -15,12 +15,13 @@ function init()
     m.currentStreamIndex = 0
     m.streamersToCheck = [
         "trainwreckstv",
-        "LosPollosTV", 
+        "LosPollosTV",
+        "cuffem", 
         "xQc",
-        "HasanAbi",
-        "Amouranth",
-        "Destiny",
-        "Mizkif"
+        "cheesur",
+        "tectone",
+        "Adinross",
+        "asmongold"
     ]
     m.currentStreamerIndex = 0
     m.currentStreamerName = ""
