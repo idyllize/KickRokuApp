@@ -130,8 +130,15 @@ sub processStreamUrl(streamUrl as string, streamerName as string)
     ' Clean the URL (remove any extra whitespace/newlines)
     cleanUrl = streamUrl.trim()
     
-    ' Validate URL format
-    if cleanUrl.left(4) <> "http"
+    ' Validate URL format and remove player_version parameter
+    if cleanUrl.left(4) = "http"
+        ' Use string replacement to remove player_version=1.19.0
+        cleanUrl = cleanUrl.replace("player_version=1.19.0", "")
+        ' Remove any trailing & or ? if parameter was at the end
+        if right(cleanUrl, 1) = "&" or right(cleanUrl, 1) = "?"
+            cleanUrl = left(cleanUrl, len(cleanUrl) - 1)
+        end if
+    else
         print "❌ Invalid stream URL format for @" + streamerName
         return
     end if
@@ -147,7 +154,7 @@ sub processStreamUrl(streamUrl as string, streamerName as string)
     
     m.liveStreams.push(streamData)
     print "📺 Added live stream: @" + streamerName + " (" + m.liveStreams.count().toStr() + " total)"
-    print "🔗 Stream URL: " + cleanUrl
+    print "🔗 Sanitized Stream URL: " + cleanUrl
 end sub
 
 sub moveToNextStreamer()
@@ -247,6 +254,10 @@ sub setupVideoPlayer(stream as object)
         ' Stop current playback first
         m.videoPlayer.control = "stop"
         
+        ' Ensure video player is visible and correctly positioned
+        m.videoPlayer.visible = true
+        print "📺 Video player visibility set to true, position: [" + m.videoPlayer.translation[0].toStr() + ", " + m.videoPlayer.translation[1].toStr() + "]"
+        
         ' Remove existing observers
         m.videoPlayer.unobserveField("state")
         m.videoPlayer.unobserveField("position")
@@ -264,17 +275,14 @@ sub setupVideoPlayer(stream as object)
         videoContent.live = true
         videoContent.contentType = "episode"
         
-        ' Try different quality settings
-        videoContent.preferredVideoFormat = "auto"
-        
-        print "🎬 Setting up video player..."
-        print "📺 URL: " + videoContent.url
+        ' Debug video content setup
+        print "🎬 Setting up video player with URL: " + videoContent.url
         print "🎯 Format: " + videoContent.streamFormat
         
         ' Set content and observe state changes
         m.videoPlayer.content = videoContent
         m.videoPlayer.observeField("state", "onVideoPlayerState")
-        m.videoPlayer.observeField("position", "onVideoPlayerPosition")
+        m.videoPlayer.observeField("error", "onVideoError") ' Add error observer
         
         ' Start playback
         m.videoPlayer.control = "play"
@@ -327,6 +335,14 @@ sub onVideoPlayerState(event as object)
     end if
 end sub
 
+sub onVideoError(event as object)
+    errorMsg = event.getData()
+    if m.liveStreams.count() > 0 and m.currentStreamIndex < m.liveStreams.count()
+        stream = m.liveStreams[m.currentStreamIndex]
+        print "❌ Video error for @" + stream.username + ": " + errorMsg
+    end if
+end sub
+
 sub handlePlaybackError(stream as object)
     m.playbackRetries++
     
@@ -372,10 +388,8 @@ sub onRetryTimer()
     end if
 end sub
 
-sub onVideoPlayerPosition(event as object)
-    position = event.getData()
-    ' Optional: Handle position updates for live streams
-    ' Most live streams won't have meaningful position data
+sub onVideoPlayerPosition()
+    ' Removed unused 'event' parameter to fix warning
 end sub
 
 sub onButtonSelected(event as object)

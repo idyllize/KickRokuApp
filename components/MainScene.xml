@@ -1,130 +1,522 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="MainScene" extends="Scene">
-  <children>
-    <!-- Background -->
-    <Rectangle 
-      id="background"
-      width="1920" 
-      height="1080" 
-      color="0x000000" />
-    
-    <!-- Header -->
-    <Rectangle 
-      id="header"
-      width="1920" 
-      height="100" 
-      color="0x1a1a1a" />
-    
-    <Label 
-      id="title"
-      text="🎮 Kick.com Live Streams"
-      translation="[50, 25]"
-      width="800"
-      height="50"
-      font="font:LargeBoldSystemFont"
-      color="0x00FF00" />
-    
-    <!-- Loading Spinner -->
-    <BusySpinner 
-      id="loadingSpinner"
-      translation="[960, 540]"
-      visible="false" />
-    
-    <!-- Main Content Area -->
-    <Rectangle 
-      id="contentArea"
-      translation="[0, 100]"
-      width="1920" 
-      height="980" 
-      color="0x0a0a0a" />
-    
-    <!-- Video Player (Main) -->
-    <Video 
-      id="videoPlayer"
-      translation="[50, 150]"
-      width="1200" 
-      height="675"
-      visible="true" />
-    
-    <!-- Stream Info Panel -->
-    <Rectangle 
-      id="infoPanel"
-      translation="[1300, 150]"
-      width="570" 
-      height="400" 
-      color="0x1a1a1a" />
-    
-    <Label 
-      id="streamInfo"
-      translation="[1320, 170]"
-      width="530"
-      height="360"
-      font="font:MediumSystemFont"
-      color="0xFFFFFF"
-      text="🔄 Loading streams..." />
-    
-    <!-- Stream List -->
-    <Rectangle 
-      id="listPanel"
-      translation="[1300, 600]"
-      width="570" 
-      height="300" 
-      color="0x1a1a1a" />
-    
-    <Label 
-      id="listTitle"
-      translation="[1320, 620]"
-      width="530"
-      height="30"
-      font="font:MediumBoldSystemFont"
-      color="0x00FF00"
-      text="🔴 LIVE STREAMS" />
-    
-    <RowList 
-      id="streamList"
-      translation="[1320, 660]"
-      width="530"
-      height="220"
-      itemComponentName="SimpleRowListItem"
-      visible="true" />
-    
-    <!-- Control Instructions -->
-    <Rectangle 
-      id="controlsPanel"
-      translation="[50, 850]"
-      width="1200" 
-      height="80" 
-      color="0x1a1a1a" />
-    
-    <Label 
-      id="controlsText"
-      translation="[70, 870]"
-      width="1160"
-      height="40"
-      font="font:SmallSystemFont"
-      color="0xCCCCCC"
-      text="◀ ▶ Previous/Next Stream  •  OK: Play/Pause/Refresh  •  Back: Exit" />
-    
-    <!-- Error Message -->
-    <Rectangle 
-      id="errorPanel"
-      translation="[460, 400]"
-      width="1000" 
-      height="200" 
-      color="0x330000"
-      visible="false" />
-    
-    <Label 
-      id="errorMessage"
-      translation="[480, 450]"
-      width="960"
-      height="100"
-      font="font:MediumSystemFont"
-      color="0xFF6666"
-      text=""
-      visible="false" />
-    
-  </children>
-  
   <script type="text/brightscript" uri="pkg:/components/StreamScene.brs" />
+  <interface>
+    <field id="streamListContent" type="node" />
+    <field id="currentStreamData" type="assocarray" />
+    <field id="chatMessages" type="array" />
+    <field id="viewerCount" type="integer" value="0" />
+    <field id="streamerName" type="string" value="" />
+    <field id="streamTitle" type="string" value="" />
+  </interface>
+  <children>
+    <!-- MAIN BACKGROUND SYSTEM -->
+    <Rectangle id="primaryBackground" 
+               width="1920" 
+               height="1080" 
+               color="0x1A1A1AFF" />
+    
+    <!-- GRADIENT OVERLAY FOR DEPTH -->
+    <Rectangle id="gradientTop" 
+               width="1920" 
+               height="540" 
+               color="0x2E2E2EFF" 
+               opacity="0.3" 
+               translation="[0, 0]" />
+    
+    <Rectangle id="gradientBottom" 
+               width="1920" 
+               height="540" 
+               color="0x000000FF" 
+               opacity="0.5" 
+               translation="[0, 540]" />
+    
+    <!-- ========== LEFT SIDEBAR PANEL ========== -->
+    <Group id="sidebarPanel" translation="[0, 0]">
+      <!-- Sidebar Background -->
+      <Rectangle id="sidebarBg" 
+                 width="280" 
+                 height="1080" 
+                 color="0x1E2A44FF" />
+      
+      <!-- Sidebar Accent Border -->
+      <Rectangle id="sidebarAccent" 
+                 width="4" 
+                 height="1080" 
+                 color="0x00FF99FF" 
+                 translation="[276, 0]" />
+      
+      <!-- Sidebar Header -->
+      <Rectangle id="sidebarHeader" 
+                 width="280" 
+                 height="80" 
+                 color="0x2A3A54FF" 
+                 translation="[0, 0]" />
+      
+      <Label id="sidebarTitle" 
+             text="🔴 LIVE NOW" 
+             translation="[20, 25]" 
+             width="240" 
+             height="30" 
+             font="font:LargeBoldSystemFont" 
+             color="0x00FF99FF" />
+      
+      <!-- Live Stream Counter -->
+      <Rectangle id="streamCounterBg" 
+                 width="240" 
+                 height="35" 
+                 color="0x404040FF" 
+                 translation="[20, 90]" />
+      
+      <Label id="streamCounter" 
+             text="🎮 0 STREAMERS ONLINE" 
+             translation="[25, 100]" 
+             width="230" 
+             height="20" 
+             font="font:SmallBoldSystemFont" 
+             color="0xFFFFFFFF" />
+      
+      <!-- Stream List Container -->
+      <Rectangle id="streamListBg" 
+                 width="260" 
+                 height="920" 
+                 color="0x1A2A3AFF" 
+                 translation="[10, 150]" />
+      
+      <!-- Loading Indicator for Sidebar -->
+      <BusySpinner id="sidebarSpinner" 
+                   translation="[130, 500]" 
+                   visible="false" />
+      
+      <Label id="sidebarLoadingText" 
+             text="Fetching streams..." 
+             translation="[70, 540]" 
+             width="180" 
+             height="20" 
+             font="font:SmallSystemFont" 
+             color="0xCCCCCCFF" 
+             visible="false" />
+    </Group>
+    
+    <!-- ========== MAIN CONTENT CONTAINER ========== -->
+    <Group id="mainContentPanel" translation="[280, 0]">
+      <!-- Outer Container Background -->
+      <Rectangle id="outerContainerBg" 
+                 width="1640" 
+                 height="1080" 
+                 color="0x2E2E2EFF" />
+      
+      <!-- Container Border -->
+      <Rectangle id="containerBorder" 
+                 width="1640" 
+                 height="4" 
+                 color="0x404040FF" 
+                 translation="[0, 0]" />
+      
+      <!-- ========== STREAM VIDEO BOX (PERFECTLY CONTAINED) ========== -->
+      <Group id="streamVideoPanel" translation="[20, 20]">
+        <!-- Stream Container Frame -->
+        <Rectangle id="streamFrame" 
+                   width="1080" 
+                   height="608" 
+                   color="0x404040FF" />
+        
+        <!-- Inner Stream Background -->
+        <Rectangle id="streamInnerBg" 
+                   width="1076" 
+                   height="604" 
+                   color="0x000000FF" 
+                   translation="[2, 2]" />
+        
+        <!-- MAIN VIDEO PLAYER - ROKU COMPATIBLE -->
+        <Video id="videoPlayer" 
+               translation="[2, 2]" 
+               width="1076" 
+               height="604" 
+               visible="true" 
+               enableUI="false" />
+        
+        <!-- Custom Video Controls Overlay -->
+        <Rectangle id="videoControlsBg" 
+                   width="1076" 
+                   height="50" 
+                   color="0x00000080" 
+                   translation="[2, 554]" 
+                   visible="false" />
+        
+        <Label id="videoControlsText" 
+               text="▶️ PLAY  ⏸️ PAUSE  🔊 VOLUME  ⚙️ SETTINGS" 
+               translation="[20, 565]" 
+               width="1036" 
+               height="25" 
+               font="font:SmallBoldSystemFont" 
+               color="0xFFFFFFFF" 
+               visible="false" />
+        
+        <!-- Stream Quality Indicator -->
+        <Rectangle id="qualityIndicatorBg" 
+                   width="80" 
+                   height="30" 
+                   color="0x00FF9980" 
+                   translation="[990, 10]" />
+        
+        <Label id="qualityIndicator" 
+               text="HD" 
+               translation="[1015, 18]" 
+               width="30" 
+               height="15" 
+               font="font:SmallBoldSystemFont" 
+               color="0x000000FF" />
+      </Group>
+      
+      <!-- ========== CHAT PANEL (RIGHT SIDE) ========== -->
+      <Group id="chatPanel" translation="[1120, 20]">
+        <!-- Chat Background -->
+        <Rectangle id="chatBg" 
+                   width="500" 
+                   height="608" 
+                   color="0x1E2A44FF" />
+        
+        <!-- Chat Border -->
+        <Rectangle id="chatBorder" 
+                   width="500" 
+                   height="4" 
+                   color="0x00FF99FF" 
+                   translation="[0, 0]" />
+        
+        <!-- Chat Header -->
+        <Rectangle id="chatHeader" 
+                   width="500" 
+                   height="50" 
+                   color="0x2A3A54FF" 
+                   translation="[0, 4]" />
+        
+        <Label id="chatTitle" 
+               text="💬 LIVE CHAT" 
+               translation="[20, 20]" 
+               width="460" 
+               height="25" 
+               font="font:MediumBoldSystemFont" 
+               color="0x00FF99FF" />
+        
+        <!-- Chat Messages Area -->
+        <Rectangle id="chatMessagesBg" 
+                   width="480" 
+                   height="530" 
+                   color="0x1A2A3AFF" 
+                   translation="[10, 64]" />
+        
+        <Label id="chatMessages" 
+               text="Welcome to the stream! 🎮&#10;&#10;🔥 cheesur: Hey everyone!&#10;👋 viewer123: What's up!&#10;💯 gamer456: Nice setup!&#10;🎯 streamer_fan: Love this!&#10;⚡ quick_chat: Epic stream!&#10;🎮 pro_gamer: Skills!&#10;🔴 live_watcher: Amazing!&#10;💪 strong_viewer: Keep it up!&#10;🎊 party_time: Woohoo!&#10;&#10;Chat updates live..." 
+               translation="[20, 80]" 
+               width="460" 
+               height="500" 
+               font="font:SmallSystemFont" 
+               color="0xFFFFFFFF" />
+        
+        <!-- Chat Input Indicator -->
+        <Rectangle id="chatInputBg" 
+                   width="480" 
+                   height="25" 
+                   color="0x404040FF" 
+                   translation="[10, 574]" />
+        
+        <Label id="chatInputText" 
+               text="💭 Chat viewing only on Roku" 
+               translation="[20, 580]" 
+               width="460" 
+               height="15" 
+               font="font:SmallSystemFont" 
+               color="0xCCCCCCFF" />
+      </Group>
+      
+      <!-- ========== STREAM INFO BAR (BOTTOM) ========== -->
+      <Group id="streamInfoPanel" translation="[20, 648]">
+        <!-- Info Bar Background -->
+        <Rectangle id="infoBg" 
+                   width="1600" 
+                   height="100" 
+                   color="0x1E2A44FF" />
+        
+        <!-- Info Bar Accent -->
+        <Rectangle id="infoAccent" 
+                   width="1600" 
+                   height="4" 
+                   color="0x00FF99FF" 
+                   translation="[0, 0]" />
+        
+        <!-- Streamer Avatar Placeholder -->
+        <Rectangle id="avatarBg" 
+                   width="70" 
+                   height="70" 
+                   color="0x404040FF" 
+                   translation="[15, 15]" />
+        
+        <Label id="avatarText" 
+               text="👤" 
+               translation="[35, 35]" 
+               width="30" 
+               height="30" 
+               font="font:LargeSystemFont" 
+               color="0x00FF99FF" />
+        
+        <!-- Streamer Info -->
+        <Label id="streamerName" 
+               text="@cheesur" 
+               translation="[100, 20]" 
+               width="400" 
+               height="25" 
+               font="font:LargeBoldSystemFont" 
+               color="0x00FF99FF" />
+        
+        <Label id="streamTitle" 
+               text="🎮 Epic Gaming Session - Come Hang Out!" 
+               translation="[100, 45]" 
+               width="800" 
+               height="20" 
+               font="font:MediumSystemFont" 
+               color="0xFFFFFFFF" />
+        
+        <Label id="streamCategory" 
+               text="📂 Just Chatting • 🎯 Gaming" 
+               translation="[100, 65]" 
+               width="600" 
+               height="15" 
+               font="font:SmallSystemFont" 
+               color="0xCCCCCCFF" />
+        
+        <!-- Viewer Stats -->
+        <Rectangle id="viewerStatsBg" 
+                   width="180" 
+                   height="70" 
+                   color="0x2A3A54FF" 
+                   translation="[1200, 15]" />
+        
+        <Label id="viewerCount" 
+               text="👥 8,483 viewers" 
+               translation="[1215, 25]" 
+               width="150" 
+               height="15" 
+               font="font:MediumBoldSystemFont" 
+               color="0x00FF99FF" />
+        
+        <Label id="streamDuration" 
+               text="⏱️ 2h 34m" 
+               translation="[1215, 45]" 
+               width="150" 
+               height="15" 
+               font="font:SmallSystemFont" 
+               color="0xCCCCCCFF" />
+        
+        <Label id="streamQuality" 
+               text="📺 1080p60" 
+               translation="[1215, 60]" 
+               width="150" 
+               height="15" 
+               font="font:SmallSystemFont" 
+               color="0xCCCCCCFF" />
+        
+        <!-- Follow Button -->
+        <Rectangle id="followBtnBg" 
+                   width="100" 
+                   height="35" 
+                   color="0x00FF99FF" 
+                   translation="[1480, 32]" />
+        
+        <Label id="followBtnText" 
+               text="+ FOLLOW" 
+               translation="[1495, 42]" 
+               width="70" 
+               height="15" 
+               font="font:SmallBoldSystemFont" 
+               color="0x000000FF" />
+      </Group>
+      
+      <!-- ========== BOTTOM CONTROLS BAR ========== -->
+      <Group id="controlsPanel" translation="[0, 768]">
+        <!-- Controls Background -->
+        <Rectangle id="controlsBg" 
+                   width="1640" 
+                   height="70" 
+                   color="0x1A1A1AFF" />
+        
+        <!-- Controls Accent -->
+        <Rectangle id="controlsAccent" 
+                   width="1640" 
+                   height="2" 
+                   color="0x00FF99FF" 
+                   translation="[0, 0]" />
+        
+        <!-- Control Instructions -->
+        <Label id="controlsTitle" 
+               text="🎮 ROKU CONTROLS" 
+               translation="[20, 10]" 
+               width="200" 
+               height="20" 
+               font="font:MediumBoldSystemFont" 
+               color="0x00FF99FF" />
+        
+        <Label id="controlsText" 
+               text="◀️ ▶️ Switch Streams  •  ⬆️ ⬇️ Navigate  •  OK Select  •  * Options  •  Home Exit" 
+               translation="[20, 35]" 
+               width="1200" 
+               height="20" 
+               font="font:SmallSystemFont" 
+               color="0xCCCCCCFF" />
+        
+        <!-- Status Indicator -->
+        <Rectangle id="connectionStatusBg" 
+                   width="180" 
+                   height="45" 
+                   color="0x2A3A54FF" 
+                   translation="[1430, 12]" />
+        
+        <Label id="connectionStatus" 
+               text="🟢 CONNECTED" 
+               translation="[1445, 25]" 
+               width="150" 
+               height="15" 
+               font="font:SmallBoldSystemFont" 
+               color="0x00FF99FF" />
+      </Group>
+      
+      <!-- ========== BOTTOM STATUS BAR ========== -->
+      <Group id="statusPanel" translation="[0, 858]">
+        <!-- Status Background -->
+        <Rectangle id="statusBg" 
+                   width="1640" 
+                   height="50" 
+                   color="0x0D1117FF" />
+        
+        <!-- Status Accent -->
+        <Rectangle id="statusAccent" 
+                   width="1640" 
+                   height="2" 
+                   color="0x00FF99FF" 
+                   translation="[0, 0]" />
+        
+        <!-- Network Status -->
+        <Label id="networkStatus" 
+               text="📶 Network: Strong  •  🌐 Kick.com API: Online  •  📺 Stream: HD Quality" 
+               translation="[20, 20]" 
+               width="1000" 
+               height="15" 
+               font="font:SmallSystemFont" 
+               color="0xCCCCCCFF" />
+        
+        <!-- Time Display -->
+        <Label id="timeDisplay" 
+               text="🕐 3:23 PM" 
+               translation="[1520, 20]" 
+               width="100" 
+               height="15" 
+               font="font:SmallSystemFont" 
+               color="0xCCCCCCFF" />
+      </Group>
+    </Group>
+    
+    <!-- ========== LOADING SYSTEM ========== -->
+    <Group id="loadingSystem" visible="false">
+      <!-- Loading Overlay -->
+      <Rectangle id="loadingOverlay" 
+                 width="1920" 
+                 height="1080" 
+                 color="0x00000080" />
+      
+      <!-- Loading Container -->
+      <Rectangle id="loadingContainer" 
+                 width="400" 
+                 height="150" 
+                 color="0x1E2A44FF" 
+                 translation="[760, 465]" />
+      
+      <!-- Loading Border -->
+      <Rectangle id="loadingBorder" 
+                 width="400" 
+                 height="4" 
+                 color="0x00FF99FF" 
+                 translation="[760, 465]" />
+      
+      <!-- Loading Spinner -->
+      <BusySpinner id="mainLoadingSpinner" 
+                   translation="[935, 515]" 
+                   scale="[1.5, 1.5]" />
+      
+      <Label id="loadingMessage" 
+             text="🔄 Connecting to Kick.com..." 
+             translation="[780, 560]" 
+             width="360" 
+             height="20" 
+             font="font:MediumBoldSystemFont" 
+             color="0x00FF99FF" />
+    </Group>
+    
+    <!-- ========== ERROR SYSTEM ========== -->
+    <Group id="errorSystem" visible="false">
+      <!-- Error Overlay -->
+      <Rectangle id="errorOverlay" 
+                 width="1920" 
+                 height="1080" 
+                 color="0x00000090" />
+      
+      <!-- Error Container -->
+      <Rectangle id="errorContainer" 
+                 width="500" 
+                 height="200" 
+                 color="0x441E1EFF" 
+                 translation="[710, 440]" />
+      
+      <!-- Error Border -->
+      <Rectangle id="errorBorder" 
+                 width="500" 
+                 height="4" 
+                 color="0xFF4444FF" 
+                 translation="[710, 440]" />
+      
+      <Label id="errorTitle" 
+             text="⚠️ CONNECTION ERROR" 
+             translation="[730, 460]" 
+             width="460" 
+             height="25" 
+             font="font:LargeBoldSystemFont" 
+             color="0xFF6666FF" />
+      
+      <Label id="errorMessage" 
+             text="Failed to connect to stream.&#10;Check your internet connection." 
+             translation="[730, 490]" 
+             width="460" 
+             height="40" 
+             font="font:MediumSystemFont" 
+             color="0xFFAAAAFF" />
+      
+      <Label id="errorRetry" 
+             text="Press OK to retry" 
+             translation="[730, 580]" 
+             width="460" 
+             height="20" 
+             font="font:SmallBoldSystemFont" 
+             color="0x00FF99FF" />
+    </Group>
+    
+    <!-- ========== FOCUS MANAGEMENT ========== -->
+    <Rectangle id="focusIndicator" 
+               width="1080" 
+               height="608" 
+               color="0x00000000" 
+               translation="[302, 22]" 
+               visible="false" />
+    
+    <!-- ========== ANIMATIONS ========== -->
+    <Animation id="fadeInVideo" duration="1.0" easeFunction="inOutQuad">
+      <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[0.0, 1.0]" fieldToInterp="videoPlayer.opacity" />
+    </Animation>
+    
+    <Animation id="slideInSidebar" duration="0.8" easeFunction="outQuad">
+      <Vector2DFieldInterpolator key="[0.0, 1.0]" keyValue="[[-280, 0], [0, 0]]" fieldToInterp="sidebarPanel.translation" />
+    </Animation>
+    
+    <Animation id="slideInMain" duration="1.0" easeFunction="outQuad">
+      <Vector2DFieldInterpolator key="[0.0, 1.0]" keyValue="[[1920, 0], [280, 0]]" fieldToInterp="mainContentPanel.translation" />
+    </Animation>
+  </children>
 </component>

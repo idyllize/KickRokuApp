@@ -4,7 +4,7 @@ sub main()
     m.port = CreateObject("roMessagePort")
     screen.setMessagePort(m.port)
     
-    screen.CreateScene("StreamScene")
+    screen.CreateScene("MainScene") ' Changed from StreamScene to MainScene
     screen.show()
     
     while(true)
