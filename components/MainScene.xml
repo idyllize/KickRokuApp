@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="MainScene" extends="Scene">
+  <children>
+    <!-- Background -->
+    <Rectangle 
+      id="background"
+      width="1920" 
+      height="1080" 
+      color="0x000000" />
+    
+    <!-- Header -->
+    <Rectangle 
+      id="header"
+      width="1920" 
+      height="100" 
+      color="0x1a1a1a" />
+    
+    <Label 
+      id="title"
+      text="🎮 Kick.com Live Streams"
+      translation="[50, 25]"
+      width="800"
+      height="50"
+      font="font:LargeBoldSystemFont"
+      color="0x00FF00" />
+    
+    <!-- Loading Spinner -->
+    <BusySpinner 
+      id="loadingSpinner"
+      translation="[960, 540]"
+      visible="false" />
+    
+    <!-- Main Content Area -->
+    <Rectangle 
+      id="contentArea"
+      translation="[0, 100]"
+      width="1920" 
+      height="980" 
+      color="0x0a0a0a" />
+    
+    <!-- Video Player (Main) -->
+    <Video 
+      id="videoPlayer"
+      translation="[50, 150]"
+      width="1200" 
+      height="675"
+      visible="true" />
+    
+    <!-- Stream Info Panel -->
+    <Rectangle 
+      id="infoPanel"
+      translation="[1300, 150]"
+      width="570" 
+      height="400" 
+      color="0x1a1a1a" />
+    
+    <Label 
+      id="streamInfo"
+      translation="[1320, 170]"
+      width="530"
+      height="360"
+      font="font:MediumSystemFont"
+      color="0xFFFFFF"
+      text="🔄 Loading streams..." />
+    
+    <!-- Stream List -->
+    <Rectangle 
+      id="listPanel"
+      translation="[1300, 600]"
+      width="570" 
+      height="300" 
+      color="0x1a1a1a" />
+    
+    <Label 
+      id="listTitle"
+      translation="[1320, 620]"
+      width="530"
+      height="30"
+      font="font:MediumBoldSystemFont"
+      color="0x00FF00"
+      text="🔴 LIVE STREAMS" />
+    
+    <RowList 
+      id="streamList"
+      translation="[1320, 660]"
+      width="530"
+      height="220"
+      itemComponentName="SimpleRowListItem"
+      visible="true" />
+    
+    <!-- Control Instructions -->
+    <Rectangle 
+      id="controlsPanel"
+      translation="[50, 850]"
+      width="1200" 
+      height="80" 
+      color="0x1a1a1a" />
+    
+    <Label 
+      id="controlsText"
+      translation="[70, 870]"
+      width="1160"
+      height="40"
+      font="font:SmallSystemFont"
+      color="0xCCCCCC"
+      text="◀ ▶ Previous/Next Stream  •  OK: Play/Pause/Refresh  •  Back: Exit" />
+    
+    <!-- Error Message -->
+    <Rectangle 
+      id="errorPanel"
+      translation="[460, 400]"
+      width="1000" 
+      height="200" 
+      color="0x330000"
+      visible="false" />
+    
+    <Label 
+      id="errorMessage"
+      translation="[480, 450]"
+      width="960"
+      height="100"
+      font="font:MediumSystemFont"
+      color="0xFF6666"
+      text=""
+      visible="false" />
+    
+  </children>
+  
+  <script type="text/brightscript" uri="pkg:/components/StreamScene.brs" />
+</component>

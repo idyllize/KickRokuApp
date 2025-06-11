@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="HttpTask" extends="Task">
+  <interface>
+    <field id="url" type="string"/>
+    <field id="headers" type="assocarray"/>
+    <field id="response" type="string"/>
+    <field id="isComplete" type="boolean" value="false"/>
+    <field id="isSuccess" type="boolean" value="false"/>
+    <field id="error" type="string"/>
+  </interface>
+  <script type="text/brightscript" uri="HttpTask.brs"/>
+</component>
