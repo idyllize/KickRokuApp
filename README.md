@@ -186,9 +186,9 @@ zip -r KickRokuApp.zip . -x "*.git*" "*.DS_Store*" "README.md"
 ```
 
 ### **Method 2: Official Channel Store** *(Q3 2025)*
-> 🏆 **Roku Certification**: Currently in review process  
-> 🎯 **Public Release**: Expected Q3 2025  
-> 📊 **Beta Testing**: 500+ active testers
+> 🏆 **Roku Certification**: Maybe  
+> 🎯 **Public Release**: Expected 2025?  
+> 📊 **Beta Testing**: 1 active testers
 
 ---
 
