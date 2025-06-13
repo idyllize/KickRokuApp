@@ -1,0 +1,7 @@
+title=KickFullAppTesting
+major_version=1
+minor_version=0
+build_version=0
+UISplash=pkg:/components/UISplash.xml
+UIHome=pkg:/components/UIHome.xml
+UIStreaming=pkg:/components/UIStreaming.xml
