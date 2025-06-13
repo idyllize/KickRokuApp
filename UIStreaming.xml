@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="UIStreaming" extends="Group">
+<children>
+<!-- BLACK BACKGROUND -->
+<Rectangle id="background" 
+           width="1280" 
+           height="720" 
+           color="0x000000FF" />
+
+<!-- VIDEO PLAYER -->
+<Video id="videoPlayer" 
+       width="1280" 
+       height="720" 
+       translation="[0, 0]" />
+
+<!-- LOADING OVERLAY -->
+<Rectangle id="loadingOverlay" 
+           width="1280" 
+           height="720" 
+           color="0x000000CC" 
+           visible="false" />
+
+<Label id="loadingText" 
+       text="Loading stream..." 
+       width="1280" 
+       height="60"
+       translation="[0, 330]"
+       horizAlign="center" 
+       vertAlign="center"
+       font="font:LargeSystemFont" 
+       color="0x53FC18FF" 
+       visible="false" />
+
+<!-- STREAM INFO OVERLAY -->
+<Rectangle id="streamInfoBg" 
+           width="400" 
+           height="60" 
+           translation="[40, 40]"
+           color="0x000000CC" 
+           visible="false" />
+
+<Label id="streamInfo" 
+       text="@Streamer" 
+       width="380" 
+       height="40"
+       translation="[50, 50]"
+       horizAlign="left" 
+       vertAlign="center"
+       font="font:MediumBoldSystemFont" 
+       color="0x53FC18FF" 
+       visible="false" />
+
+<!-- TEMPORARY STREAM STATUS LABEL (TOP-LEFT) -->
+<Rectangle id="streamStatusBg" 
+           width="300" 
+           height="50" 
+           translation="[40, 100]"
+           color="0x000000DD" 
+           visible="false" />
+
+<Label id="streamStatusLabel" 
+       text="@Streamer • LIVE | HD" 
+       width="280" 
+       height="30"
+       translation="[50, 110]"
+       horizAlign="left" 
+       vertAlign="center"
+       font="font:MediumBoldSystemFont" 
+       color="0x53FC18FF" 
+       visible="false" />
+
+<!-- TIMER FOR 7-SECOND DISPLAY -->
+<Timer id="statusTimer" 
+       duration="7" 
+       repeat="false" />
+
+</children>
+
+<interface>
+<field id="streamUrl" type="string" onChange="onStreamUrlChanged" />
+<field id="streamName" type="string" onChange="onStreamNameChanged" />
+<field id="backPressed" type="boolean" />
+<field id="switchStream" type="string" />
+</interface>
+
+<script type="text/brightscript" uri="pkg:/components/UIStreaming.brs" />
+</component>

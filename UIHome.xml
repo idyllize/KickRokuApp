@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="UIHome" extends="Group">
+<children>
+<!-- SIMPLE BACKGROUND -->
+<Rectangle id="background" 
+           width="1280" 
+           height="720" 
+           color="0x000000FF" />
+
+<!-- KICK LOGO SECTION -->
+<Group id="logoSection" translation="[0, 150]">
+  <!-- KICK TITLE -->
+  <!-- ADD KICK LOGO IN HEADER -->
+<!-- This one stays positioned since it's in the header -->
+<Label id="kickTitle" 
+       text="KICK" 
+       width="1280" 
+       height="100"
+       translation="[0, 0]"
+       horizAlign="center" 
+       vertAlign="center"
+       font="font:LargeSystemFont" 
+       color="0xFFFFFFFF" />
+  
+  <!-- SUBTITLE -->
+  <Label id="subtitle" 
+         text="Grow. Stream. Connect." 
+         width="1280" 
+         height="60"
+         translation="[0, 120]"
+         horizAlign="center" 
+         vertAlign="center"
+         font="font:LargeSystemFont" 
+         color="0xFFFFFFFF" />
+</Group>
+
+<!-- INSTRUCTIONS SECTION -->
+<Group id="instructionsSection" translation="[0, 350]">
+  <!-- MAIN INSTRUCTION -->
+  <Label id="mainInstruction" 
+         text="Press OK to Load Streamers" 
+         width="1280" 
+         height="60"
+         horizAlign="center" 
+         vertAlign="center"
+         font="font:LargeBoldSystemFont" 
+         color="0x53FC18FF" />
+  
+  <!-- NAVIGATION INSTRUCTION -->
+  <Label id="navInstruction" 
+         text="Use Left/Right To Go to Next/Previous" 
+         width="1280" 
+         height="50"
+         translation="[0, 80]"
+         horizAlign="center" 
+         vertAlign="center"
+         font="font:MediumSystemFont" 
+         color="0xCCCCCCFF" />
+</Group>
+
+<!-- HIDDEN STREAM LIST (Only visible after loading) -->
+<RowList id="streamList" 
+         translation="[40, 450]"
+         itemComponentName="StreamListItem"
+         numRows="1"
+         rowHeights="[300]"
+         rowItemSize="[[330, 300]]"
+         itemSpacing="[20, 0]"
+         showRowLabel="[false]"
+         visible="false" />
+
+<!-- STATUS LABELS (Hidden initially) -->
+<Label id="liveStatus" 
+       text="LOADING STREAMERS..." 
+       width="1280" 
+       height="40"
+       translation="[0, 500]"
+       horizAlign="center" 
+       vertAlign="center"
+       font="font:MediumBoldSystemFont" 
+       color="0x53FC18FF" 
+       visible="false" />
+
+<Label id="streamCount" 
+       text="Checking live streams..." 
+       width="1280" 
+       height="30"
+       translation="[0, 540]"
+       horizAlign="center" 
+       vertAlign="center"
+       font="font:SmallSystemFont" 
+       color="0xCCCCCCFF" 
+       visible="false" />
+
+<Label id="instructions" 
+       text="Navigate with Left/Right - OK to Select - While Streaming: Left/Right to Switch" 
+       width="1280" 
+       height="30"
+       translation="[0, 580]"
+       horizAlign="center" 
+       vertAlign="center"
+       font="font:SmallSystemFont" 
+       color="0x888888FF" 
+       visible="false" />
+</children>
+
+<interface>
+<field id="streamData" type="assocarray" onChange="onStreamDataChanged" />
+<field id="selectedStream" type="assocarray" />
+</interface>
+
+<script type="text/brightscript" uri="pkg:/components/UIHome.brs" />
+</component>
