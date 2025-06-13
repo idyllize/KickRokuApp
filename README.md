@@ -134,19 +134,19 @@ KickRokuApp/
 
 ### 🔄 **Data Flow Architecture**
 ```mermaid
-graph TD
-    A[🚀 main.brs] --> B[🎬 StreamScene]
-    B --> C[✨ UISplash - Discovery]
-    B --> D[🏠 UIHome - Selection]
-    B --> E[📺 UIStreaming - Playback]
-    C -->|Stream Discovery| F[🔄 HttpTask]
-    F -->|API Calls| G[🌐 Kick API]
-    G -->|Live Streams| F
-    F -->|Stream Data| C
-    D -->|User Selection| E
-    E -->|HLS Playback| H[📹 roVideoPlayer]
-    E -->|Stream Switch| B
-    B -->|Navigation| D
+flowchart TD
+    A[main.brs] --> B[StreamScene]
+    B --> C[UISplash Discovery]
+    B --> D[UIHome Selection]
+    B --> E[UIStreaming Playback]
+    C --> F[HttpTask]
+    F --> G[Kick API]
+    G --> F
+    F --> C
+    D --> E
+    E --> H[roVideoPlayer]
+    E --> B
+    B --> D
 ```
 
 ### 🔑 **Core Components**
@@ -347,9 +347,9 @@ git push origin feature/your-feature
 
 ## 📄 **Legal & Compliance**
 
-### 📜 **MIT License**
+### 📜 **License**
 ```
-[![License: MIT with Commercial Sale Restriction](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/idyllize/KickRokuApp/blob/main/LICENSE)
+[![📜MIT License: with Commercial Sale Restriction](https://img.shields.io/badge/License-MIT%20with%20Commercial%20Sale%20Restriction-yellow.svg)](https://github.com/idyllize/KickRokuApp/blob/main/LICENSE)
 
 Copyright (c) 2025 Idyllize
 
