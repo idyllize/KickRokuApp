@@ -348,12 +348,12 @@ git push origin feature/your-feature
 ## 📄 **Legal & Compliance**
 
 ### 📜 **License**
-```
+
 [![📜MIT License: with Commercial Sale Restriction](https://img.shields.io/badge/License-MIT%20with%20Commercial%20Sale%20Restriction-yellow.svg)](https://github.com/idyllize/KickRokuApp/blob/main/LICENSE)
 
 Copyright (c) 2025 Idyllize
 
-```
+
 
 ### 🔒 **Privacy & Security**
 - **🚫 No Data Collection**: Zero tracking or analytics
