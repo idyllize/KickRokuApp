@@ -2,10 +2,13 @@ sub init()
   print "UISplash: Initializing..."
   
   ' **ENTERPRISE: Initialize stream checking**
-  m.streamersToCheck = ["AdinRoss", "n3on", "Lacy", "asmongold"]
+  m.streamersToCheck = ["AdinRoss", "n3on", "cheesur", "cuffem", "tectone", "Kaysan", "Konvy", "Trainwreckstv", "LosPollosTV", "asmongold", "sweatergxd"]
   m.currentStreamerIndex = 0
   m.liveStreamers = []
   m.streamData = {}
+  
+  ' Get UI elements
+  m.streamerProgress = m.top.findNode("streamerProgress")
   
   ' **ENTERPRISE: Start checking streams**
   checkStreams()
@@ -32,11 +35,8 @@ sub checkStreams()
       m.animationTimer.control = "start"
       print "UISplash: ✅ Loading animation started"
   end if
-  
-  ' ... rest of existing code stays the same ...
 end sub
 
-' **NEW: Add animation function**
 sub onAnimationTimer()
   ' Reset all dots to dim
   for i = 0 to m.dots.count() - 1
@@ -57,21 +57,15 @@ sub onAnimationTimer()
   end if
 end sub
 
-' **NEW: Stop animation when complete**
-sub onAllStreamsChecked()
-  ' ... existing code stays the same ...
-  
-  ' Stop animation
-  if m.animationTimer <> invalid
-      m.animationTimer.control = "stop"
-      print "UISplash: ✅ Loading animation stopped"
-  end if
-end sub
-
 sub checkNextStreamer()
   if m.currentStreamerIndex < m.streamersToCheck.count()
       streamerName = m.streamersToCheck[m.currentStreamerIndex]
       print "=== Checking: @" + streamerName + " (" + (m.currentStreamerIndex + 1).toStr() + "/" + m.streamersToCheck.count().toStr() + ") ==="
+      
+      ' Update streamer progress display
+      if m.streamerProgress <> invalid
+          m.streamerProgress.text = "@" + streamerName + " " + (m.currentStreamerIndex + 1).toStr() + "/" + m.streamersToCheck.count().toStr()
+      end if
       
       ' **ENTERPRISE: Create HTTP task**
       m.httpTask = createObject("roSGNode", "HttpTask")
@@ -148,9 +142,21 @@ sub finishStreamCheck()
       end if
   end if
   
+  ' Stop animation
+  if m.animationTimer <> invalid
+      m.animationTimer.control = "stop"
+      print "UISplash: ✅ Loading animation stopped"
+  end if
+  
   ' **ENTERPRISE: Pass data to parent and complete splash**
   m.top.streamData = m.streamData
   m.top.splashComplete = true
   
   print "=== SPLASH COMPLETE - SWITCHING TO HOME ==="
+end sub
+
+sub onStreamerProgressChanged()
+  if m.streamerProgress <> invalid
+      m.streamerProgress.text = m.top.streamerProgress
+  end if
 end sub

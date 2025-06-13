@@ -23,7 +23,7 @@ sub main()
   screen.setMessagePort(m.port)
   
   ' **ENTERPRISE: Load main scene**
-  scene = screen.CreateScene("StreamScene")
+  screen.CreateScene("StreamScene")
   screen.show()
   
   print "    === STREAM SCENE LAUNCHED SUCCESSFULLY ==="
