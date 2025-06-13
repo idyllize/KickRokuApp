@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<component name="KickApiTask" extends="Task">
-<interface>
-  <field id="apiUrl" type="string" />
-  <field id="response" type="string" />
-  <field id="error" type="string" />
-</interface>
-<script type="text/brightscript" uri="KickApiTask.brs" />
-</component>

@@ -1,468 +1,202 @@
-' StreamScene.brs - Main streaming logic with improved video handling
-
-function init()
-    print "=== Kick.com Live Streaming App: init() ==="
-    
-    ' Initialize UI elements
-    m.loadingSpinner = m.top.findNode("loadingSpinner")
-    m.streamList = m.top.findNode("streamList")
-    m.videoPlayer = m.top.findNode("videoPlayer")
-    m.streamInfo = m.top.findNode("streamInfo")
-    m.errorMessage = m.top.findNode("errorMessage")
-    
-    ' Initialize data
-    m.liveStreams = []
-    m.currentStreamIndex = 0
-    m.streamersToCheck = [
-        "trainwreckstv",
-        "LosPollosTV",
-        "cuffem", 
-        "xQc",
-        "cheesur",
-        "tectone",
-        "Adinross",
-        "asmongold"
-    ]
-    m.currentStreamerIndex = 0
-    m.currentStreamerName = ""
-    m.networkTask = invalid
-    m.playbackRetries = 0
-    m.maxRetries = 3
-    
-    ' Set up key handler
-    m.top.observeField("buttonSelected", "onButtonSelected")
-    
-    ' Start loading streams
-    loadLiveStreams()
-    
-    print "=== Init complete ==="
-end function
-
-sub loadLiveStreams()
-    print "=== Loading Live Kick.com Streamers ==="
-    
-    ' Show loading indicator
-    if m.loadingSpinner <> invalid
-        m.loadingSpinner.visible = true
-        print "📋 Loading indicator shown"
-    end if
-    
-    ' Hide error message
-    if m.errorMessage <> invalid
-        m.errorMessage.visible = false
-    end if
-    
-    ' Reset data
-    m.liveStreams.clear()
-    m.currentStreamerIndex = 0
-    
-    ' Start checking streamers
-    checkNextStreamer()
+sub init()
+  print "StreamScene: Initializing main scene..."
+  
+  ' **ENTERPRISE: Get UI components**
+  m.splash = m.top.findNode("splash")
+  m.home = m.top.findNode("home") 
+  m.streaming = m.top.findNode("streaming")
+  
+  print "StreamScene: Found components - splash:" + (m.splash <> invalid).toStr() + " home:" + (m.home <> invalid).toStr() + " streaming:" + (m.streaming <> invalid).toStr()
+  
+  ' **ENTERPRISE: Set up observers**
+  if m.splash <> invalid
+      m.splash.observeField("splashComplete", "onSplashComplete")
+      print "StreamScene: ✅ Splash screen observer set"
+  end if
+  
+  if m.home <> invalid
+      m.home.observeField("selectedStream", "onStreamSelected")
+      print "StreamScene: ✅ Home screen observer set"
+  end if
+  
+  if m.streaming <> invalid
+      m.streaming.observeField("backPressed", "onStreamingBack")
+      m.streaming.observeField("switchStream", "onStreamSwitch")
+      print "StreamScene: ✅ Streaming screen observers set"
+  end if
+  
+  ' **ENTERPRISE: Initialize state**
+  m.currentState = "splash"
+  m.streamList = []
+  m.currentStreamIndex = -1
+  
+  ' **ENTERPRISE: Show splash screen**
+  showSplash()
+  
+  print "StreamScene: ✅ Scene initialization complete"
+  print "    === STREAM SCENE LAUNCHED SUCCESSFULLY ==="
 end sub
 
-sub checkNextStreamer()
-    if m.currentStreamerIndex >= m.streamersToCheck.count()
-        ' All streamers checked
-        finishLoading()
-        return
-    end if
-    
-    streamer = m.streamersToCheck[m.currentStreamerIndex]
-    m.currentStreamerName = streamer
-    
-    print "=== Checking: @" + streamer + " (" + (m.currentStreamerIndex + 1).toStr() + "/" + m.streamersToCheck.count().toStr() + ") ==="
-    
-    url = "https://kickapi-dev.strayfade.com/api/v1/" + streamer
-    print "🔗 URL: " + url
-    
-    ' Create and start network task
-    createNetworkTask(url)
+sub showSplash()
+  print "StreamScene: Showing splash screen"
+  m.splash.visible = true
+  m.home.visible = false
+  m.streaming.visible = false
+  m.splash.setFocus(true)
+  m.currentState = "splash"
 end sub
 
-sub createNetworkTask(url as string)
-    ' Clean up existing task
-    if m.networkTask <> invalid
-        m.networkTask.unobserveField("response")
-        m.networkTask.control = "stop"
-        m.networkTask = invalid
-    end if
-    
-    ' Create NetworkTask
-    m.networkTask = createObject("roSGNode", "NetworkTask")
-    if m.networkTask <> invalid
-        print "✅ NetworkTask created for @" + m.currentStreamerName
-        
-        ' Set up response observer
-        m.networkTask.observeField("response", "onNetworkResponse")
-        
-        ' Set URL and start
-        m.networkTask.url = url
-        m.networkTask.control = "RUN"
-    else
-        print "❌ Failed to create NetworkTask"
-        moveToNextStreamer()
-    end if
+sub onSplashComplete()
+  print "StreamScene: Splash completed, transitioning to home..."
+  
+  ' **ENTERPRISE: Get stream data from splash**
+  streamData = m.splash.streamData
+  if streamData <> invalid
+      ' **ENTERPRISE: Build stream list for switching**
+      m.streamList = []
+      for each streamerName in streamData
+          streamInfo = streamData[streamerName]
+          streamEntry = {
+              name: streamerName,
+              url: streamInfo.url,
+              quality: streamInfo.quality
+          }
+          m.streamList.push(streamEntry)
+          print "StreamScene: ✅ Added " + streamerName + " with REAL URL: " + left(streamInfo.url, 80) + "..."
+      end for
+      
+      print "StreamScene: ✅ Built stream list with " + m.streamList.count().toStr() + " REAL streams"
+      
+      ' **ENTERPRISE: Pass data to home**
+      m.home.streamData = streamData
+      print "StreamScene: ✅ REAL streamData passed to home with " + streamData.count().toStr() + " streams"
+  end if
+  
+  showHome()
 end sub
 
-sub onNetworkResponse(event as object)
-    response = event.getData()
-    streamerName = m.currentStreamerName
-    
-    print "📡 Response for @" + streamerName + ": " + left(response, 100) + "..."
-    
-    if response <> invalid and response <> "" and response.left(6) <> "ERROR:"
-        ' Check if response contains .m3u8 (stream URL)
-        if response.inStr(".m3u8") >= 0
-            print "✅ LIVE: @" + streamerName + " - Stream URL found"
-            processStreamUrl(response, streamerName)
-        else
-            print "❌ @" + streamerName + " - No stream URL (offline)"
-        end if
-    else
-        print "❌ @" + streamerName + " - Network error or offline"
-    end if
-    
-    ' Move to next streamer
-    moveToNextStreamer()
+sub showHome()
+  print "StreamScene: Showing home screen"
+  m.splash.visible = false
+  m.home.visible = true
+  m.streaming.visible = false
+  m.home.setFocus(true)
+  m.currentState = "home"
 end sub
 
-sub processStreamUrl(streamUrl as string, streamerName as string)
-    ' Clean the URL (remove any extra whitespace/newlines)
-    cleanUrl = streamUrl.trim()
-    
-    ' Validate URL format and remove player_version parameter
-    if cleanUrl.left(4) = "http"
-        ' Use string replacement to remove player_version=1.19.0
-        cleanUrl = cleanUrl.replace("player_version=1.19.0", "")
-        ' Remove any trailing & or ? if parameter was at the end
-        if right(cleanUrl, 1) = "&" or right(cleanUrl, 1) = "?"
-            cleanUrl = left(cleanUrl, len(cleanUrl) - 1)
-        end if
-    else
-        print "❌ Invalid stream URL format for @" + streamerName
-        return
-    end if
-    
-    streamData = {
-        username: streamerName,
-        title: "Live Stream",
-        viewers: "🔴 LIVE",
-        category: "Gaming",
-        playback_url: cleanUrl,
-        thumbnail: "pkg:/images/default_thumbnail.jpg"
-    }
-    
-    m.liveStreams.push(streamData)
-    print "📺 Added live stream: @" + streamerName + " (" + m.liveStreams.count().toStr() + " total)"
-    print "🔗 Sanitized Stream URL: " + cleanUrl
+sub onStreamSelected()
+  selectedStream = m.home.selectedStream
+  if selectedStream <> invalid
+      streamName = selectedStream.name
+      streamUrl = selectedStream.url
+      
+      print "StreamScene: ✅ Stream selected: " + streamName
+      print "StreamScene: ✅ Stream URL: " + left(streamUrl, 100) + "..."
+      
+      ' **ENTERPRISE: Find stream index in our list**
+      for i = 0 to m.streamList.count() - 1
+          if m.streamList[i].name = streamName
+              m.currentStreamIndex = i
+              print "StreamScene: ✅ Set current stream index to: " + i.toStr()
+              exit for
+          end if
+      end for
+      
+      ' **ENTERPRISE: Load the stream**
+      loadCurrentStream()
+      showStreaming()
+  end if
 end sub
 
-sub moveToNextStreamer()
-    print "➡️ Moving to next streamer"
-    m.currentStreamerIndex++
-    
-    ' Small delay before next request
-    timer = createObject("roSGNode", "Timer")
-    timer.duration = 0.3
-    timer.observeField("fire", "onTimerFire")
-    timer.control = "start"
-    m.delayTimer = timer
+sub loadCurrentStream()
+  if m.currentStreamIndex >= 0 and m.currentStreamIndex < m.streamList.count()
+      currentStream = m.streamList[m.currentStreamIndex]
+      
+      print "StreamScene: 🔄 Loading stream: " + currentStream.name
+      print "StreamScene: 🔄 Real URL: " + left(currentStream.url, 100) + "..."
+      
+      ' **ENTERPRISE: Set streaming fields**
+      m.streaming.streamUrl = currentStream.url
+      m.streaming.streamName = "@" + currentStream.name
+      
+      print "StreamScene: ✅ Fields set with REAL data"
+  end if
 end sub
 
-sub onTimerFire()
-    ' Clean up timer
-    if m.delayTimer <> invalid
-        m.delayTimer.control = "stop"
-        m.delayTimer.unobserveField("fire")
-        m.delayTimer = invalid
-    end if
-    
-    ' Continue to next streamer
-    checkNextStreamer()
+sub showStreaming()
+  print "StreamScene: Showing streaming screen"
+  m.splash.visible = false
+  m.home.visible = false
+  m.streaming.visible = true
+  m.streaming.setFocus(true)
+  m.currentState = "streaming"
+  print "StreamScene: ✅ Streaming screen is now visible and focused"
+  print "StreamScene: ✅ Stream should now be loading with REAL m3u8!"
 end sub
 
-sub finishLoading()
-    print "=== Loading Complete ==="
-    print "🎯 Found " + m.liveStreams.count().toStr() + " live streams"
-    
-    ' Hide loading indicator
-    if m.loadingSpinner <> invalid
-        m.loadingSpinner.visible = false
-    end if
-    
-    if m.liveStreams.count() > 0
-        ' Update UI and play first stream
-        updateStreamList()
-        playStream(0)
-    else
-        ' Show no streams message
-        showNoStreamsMessage()
-    end if
+sub onStreamingBack()
+  print "StreamScene: ⬅️ Back from streaming - returning to home"
+  showHome()
 end sub
 
-sub showNoStreamsMessage()
-    if m.errorMessage <> invalid
-        m.errorMessage.text = "No live streams found." + chr(10) + "All streamers appear to be offline." + chr(10) + "Press OK to refresh."
-        m.errorMessage.visible = true
-    end if
-    
-    if m.streamInfo <> invalid
-        m.streamInfo.text = "No live streams available" + chr(10) + "Try refreshing in a moment"
-    end if
-end sub
-
-sub updateStreamList()
-    if m.streamList <> invalid and m.liveStreams.count() > 0
-        content = createObject("roSGNode", "ContentNode")
-        
-        for i = 0 to m.liveStreams.count() - 1
-            stream = m.liveStreams[i]
-            item = createObject("roSGNode", "ContentNode")
-            item.title = "@" + stream.username
-            item.description = stream.viewers + " • " + stream.category
-            item.hdPosterUrl = stream.thumbnail
-            content.appendChild(item)
-        end for
-        
-        m.streamList.content = content
-        print "📊 Stream list updated with " + m.liveStreams.count().toStr() + " streams"
-    end if
-end sub
-
-sub playStream(index as integer)
-    if index >= 0 and index < m.liveStreams.count()
-        m.currentStreamIndex = index
-        stream = m.liveStreams[index]
-        m.playbackRetries = 0
-        
-        print "=== 🔴 GOING LIVE ==="
-        print "🎮 @" + stream.username
-        print "🔗 " + stream.playback_url
-        
-        ' Update stream info
-        updateStreamInfo(stream)
-        
-        ' Configure video player with enhanced settings
-        setupVideoPlayer(stream)
-    else
-        print "❌ Invalid stream index: " + index.toStr()
-    end if
-end sub
-
-sub setupVideoPlayer(stream as object)
-    if m.videoPlayer <> invalid
-        ' Stop current playback first
-        m.videoPlayer.control = "stop"
-        
-        ' Ensure video player is visible and correctly positioned
-        m.videoPlayer.visible = true
-        print "📺 Video player visibility set to true, position: [" + m.videoPlayer.translation[0].toStr() + ", " + m.videoPlayer.translation[1].toStr() + "]"
-        
-        ' Remove existing observers
-        m.videoPlayer.unobserveField("state")
-        m.videoPlayer.unobserveField("position")
-        
-        ' Create enhanced video content
-        videoContent = createObject("roSGNode", "ContentNode")
-        videoContent.url = stream.playback_url
-        videoContent.title = "@" + stream.username + " - LIVE"
-        videoContent.description = "Live stream from Kick.com"
-        
-        ' Set stream format explicitly
-        videoContent.streamFormat = "hls"
-        
-        ' Add additional metadata for better compatibility
-        videoContent.live = true
-        videoContent.contentType = "episode"
-        
-        ' Debug video content setup
-        print "🎬 Setting up video player with URL: " + videoContent.url
-        print "🎯 Format: " + videoContent.streamFormat
-        
-        ' Set content and observe state changes
-        m.videoPlayer.content = videoContent
-        m.videoPlayer.observeField("state", "onVideoPlayerState")
-        m.videoPlayer.observeField("error", "onVideoError") ' Add error observer
-        
-        ' Start playback
-        m.videoPlayer.control = "play"
-        
-        print "🚀 Starting stream for @" + stream.username
-    end if
-end sub
-
-sub updateStreamInfo(stream as object)
-    if m.streamInfo <> invalid
-        infoText = "@" + stream.username + " - LIVE" + chr(10)
-        infoText += stream.title + chr(10)
-        infoText += stream.category + " • " + stream.viewers + chr(10) + chr(10)
-        
-        ' Show current stream info
-        infoText += "Stream " + (m.currentStreamIndex + 1).toStr() + " of " + m.liveStreams.count().toStr() + chr(10)
-        infoText += "Retries: " + m.playbackRetries.toStr() + "/" + m.maxRetries.toStr() + chr(10) + chr(10)
-        
-        infoText += "Controls:" + chr(10)
-        infoText += "◀ ▶ Previous/Next Stream" + chr(10)
-        infoText += "OK: Play/Pause/Retry" + chr(10)
-        infoText += "🔄 Refresh Streams"
-        
-        m.streamInfo.text = infoText
-    end if
-end sub
-
-sub onVideoPlayerState(event as object)
-    state = event.getData()
-    
-    if m.liveStreams.count() > 0 and m.currentStreamIndex < m.liveStreams.count()
-        stream = m.liveStreams[m.currentStreamIndex]
-        
-        if state = "playing"
-            print "✅ 🔴 LIVE: @" + stream.username + " is now playing! 🎉"
-            m.playbackRetries = 0
-            updateStreamInfo(stream)
-        else if state = "buffering"
-            print "⏳ Buffering @" + stream.username + "..."
-        else if state = "error"
-            print "❌ Playback error for @" + stream.username + " (Retry " + (m.playbackRetries + 1).toStr() + "/" + m.maxRetries.toStr() + ")"
-            handlePlaybackError(stream)
-        else if state = "stopped"
-            print "⏹️ Stream stopped for @" + stream.username
-        else if state = "paused"
-            print "⏸️ Stream paused for @" + stream.username
-        else if state = "finished"
-            print "🏁 Stream finished for @" + stream.username
-        end if
-    end if
-end sub
-
-sub onVideoError(event as object)
-    errorMsg = event.getData()
-    if m.liveStreams.count() > 0 and m.currentStreamIndex < m.liveStreams.count()
-        stream = m.liveStreams[m.currentStreamIndex]
-        print "❌ Video error for @" + stream.username + ": " + errorMsg
-    end if
-end sub
-
-sub handlePlaybackError(stream as object)
-    m.playbackRetries++
-    
-    if m.playbackRetries <= m.maxRetries
-        print "🔄 Retrying playback for @" + stream.username + " in 2 seconds..."
-        updateStreamInfo(stream)
-        
-        ' Wait and retry
-        timer = createObject("roSGNode", "Timer")
-        timer.duration = 2.0
-        timer.observeField("fire", "onRetryTimer")
-        timer.control = "start"
-        m.retryTimer = timer
-    else
-        print "❌ Max retries reached for @" + stream.username + ". Trying next stream..."
-        
-        ' Try next stream automatically
-        if m.currentStreamIndex < m.liveStreams.count() - 1
-            playStream(m.currentStreamIndex + 1)
-        else
-            ' Show error message
-            if m.errorMessage <> invalid
-                m.errorMessage.text = "Unable to play any streams." + chr(10) + "All streams may be incompatible or offline." + chr(10) + "Press OK to refresh."
-                m.errorMessage.visible = true
-            end if
-        end if
-    end if
-end sub
-
-sub onRetryTimer()
-    ' Clean up timer
-    if m.retryTimer <> invalid
-        m.retryTimer.control = "stop"
-        m.retryTimer.unobserveField("fire")
-        m.retryTimer = invalid
-    end if
-    
-    ' Retry current stream
-    if m.currentStreamIndex < m.liveStreams.count()
-        stream = m.liveStreams[m.currentStreamIndex]
-        print "🔄 Retrying @" + stream.username + "..."
-        setupVideoPlayer(stream)
-    end if
-end sub
-
-sub onVideoPlayerPosition()
-    ' Removed unused 'event' parameter to fix warning
-end sub
-
-sub onButtonSelected(event as object)
-    buttonIndex = event.getData()
-    
-    if buttonIndex = 0 and m.currentStreamIndex > 0
-        ' Previous stream
-        playStream(m.currentStreamIndex - 1)
-    else if buttonIndex = 1 and m.currentStreamIndex < m.liveStreams.count() - 1
-        ' Next stream
-        playStream(m.currentStreamIndex + 1)
-    else if buttonIndex = 2
-        ' Refresh streams
-        refreshStreams()
-    end if
-end sub
-
-sub refreshStreams()
-    print "🔄 Refreshing streams..."
-    
-    ' Stop current video
-    if m.videoPlayer <> invalid
-        m.videoPlayer.control = "stop"
-    end if
-    
-    ' Hide error message
-    if m.errorMessage <> invalid
-        m.errorMessage.visible = false
-    end if
-    
-    ' Restart loading
-    loadLiveStreams()
+sub onStreamSwitch()
+  switchDirection = m.streaming.switchStream
+  print "StreamScene: 🔄 Stream switch requested: " + switchDirection
+  
+  if m.streamList.count() = 0
+      print "StreamScene: ❌ No streams available for switching"
+      return
+  end if
+  
+  ' **ENTERPRISE: Calculate new stream index**
+  if switchDirection = "right"
+      ' **NEXT STREAM**
+      m.currentStreamIndex = m.currentStreamIndex + 1
+      if m.currentStreamIndex >= m.streamList.count()
+          m.currentStreamIndex = 0  ' Loop back to first stream
+      end if
+      print "StreamScene: ➡️ Switching to NEXT stream (index " + m.currentStreamIndex.toStr() + ")"
+      
+  else if switchDirection = "left"
+      ' **PREVIOUS STREAM**
+      m.currentStreamIndex = m.currentStreamIndex - 1
+      if m.currentStreamIndex < 0
+          m.currentStreamIndex = m.streamList.count() - 1  ' Loop to last stream
+      end if
+      print "StreamScene: ⬅️ Switching to PREVIOUS stream (index " + m.currentStreamIndex.toStr() + ")"
+  end if
+  
+  ' **ENTERPRISE: Load the new stream**
+  if m.currentStreamIndex >= 0 and m.currentStreamIndex < m.streamList.count()
+      newStream = m.streamList[m.currentStreamIndex]
+      print "StreamScene: 🔄 Loading new stream: " + newStream.name
+      print "StreamScene: 🔄 New URL: " + left(newStream.url, 100) + "..."
+      
+      ' **ENTERPRISE: Update streaming with new stream**
+      m.streaming.streamUrl = newStream.url
+      m.streaming.streamName = "@" + newStream.name
+      
+      print "StreamScene: ✅ Stream switch complete!"
+  end if
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
-    if press
-        if key = "left" and m.liveStreams.count() > 0 and m.currentStreamIndex > 0
-            playStream(m.currentStreamIndex - 1)
-            return true
-        else if key = "right" and m.liveStreams.count() > 0 and m.currentStreamIndex < m.liveStreams.count() - 1
-            playStream(m.currentStreamIndex + 1)
-            return true
-        else if key = "OK"
-            ' Handle OK button based on context
-            if m.errorMessage <> invalid and m.errorMessage.visible
-                ' Refresh if error is showing
-                refreshStreams()
-            else if m.liveStreams.count() = 0
-                ' Refresh if no streams
-                refreshStreams()
-            else if m.videoPlayer <> invalid
-                ' Toggle play/pause or retry on error
-                if m.videoPlayer.state = "playing"
-                    m.videoPlayer.control = "pause"
-                else if m.videoPlayer.state = "paused"
-                    m.videoPlayer.control = "play"
-                else if m.videoPlayer.state = "error"
-                    ' Retry current stream
-                    if m.currentStreamIndex < m.liveStreams.count()
-                        stream = m.liveStreams[m.currentStreamIndex]
-                        m.playbackRetries = 0
-                        setupVideoPlayer(stream)
-                    end if
-                else
-                    m.videoPlayer.control = "play"
-                end if
-            end if
-            return true
-        else if key = "back"
-            ' Handle back button - could exit app or go to menu
-            return true
-        end if
-    end if
-    
-    return false
+  if press
+      print "StreamScene: Key pressed: " + key
+      
+      ' **ENTERPRISE: Handle keys based on current state**
+      if m.currentState = "home"
+          if key = "OK"
+              print "StreamScene: ✅ OK pressed on home - triggering selection"
+              return false  ' Let home handle it
+          end if
+      else if m.currentState = "streaming"
+          if key = "left" or key = "right"
+              print "StreamScene: 🔄 Stream switching key in streaming mode"
+              return false  ' Let streaming handle it
+          end if
+      end if
+  end if
+  
+  return false
 end function
