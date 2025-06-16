@@ -16,9 +16,9 @@ sub init()
       print "UIStreaming: ✅ Video player observers set"
   end if
   
-  ' ADD THESE LINES FOR SWITCH COOLDOWN:
   m.isSwitching = false
-  m.switchCooldown = 2000
+  m.switchCooldown = 500  ' Reduced from 2000ms
+  m.switchTimer = invalid  ' Initialize timer reference
   
   print "UIStreaming: ✅ Initialization complete"
 end sub
@@ -96,17 +96,22 @@ end function
 
 sub onVideoStateChanged()
   state = m.videoPlayer.state
-  print "UIStreaming: ðŸ”„ Video state changed to: " + state
+  print "UIStreaming: 🔄 Video state changed to: " + state
   
   if state = "playing"
-      hideLoadingOverlay()
-      showStreamInfo()
-      print "UIStreaming: âœ… Loading overlay hidden - Stream playing!"
+    hideLoadingOverlay()
+    showStreamInfo()
+    print "UIStreaming: ✅ Loading overlay hidden - Stream playing!"
+    
+    ' **FIX: Reset switching flag when stream successfully starts**
+    m.isSwitching = false
+    print "UIStreaming: ✅ Stream loaded - switching enabled"
+    
+    ' Update status
+    if m.streamStatus <> invalid
+        m.streamStatus.text = "• LIVE | " + getQualityFromUrl(m.top.streamUrl)
+    end if
       
-      ' Update status
-      if m.streamStatus <> invalid
-          m.streamStatus.text = "â€¢ LIVE | " + getQualityFromUrl(m.top.streamUrl)
-      end if
       
   else if state = "buffering"
       showLoadingOverlay()
@@ -205,13 +210,6 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
   if not press then return false
-  
-  ' Prevent rapid switching
-  if m.isSwitching
-      print "UIStreaming: 🚫 Ignoring key press - stream switching in progress"
-      return true
-  end if
-  
   print "UIStreaming: ✅ Key pressed: " + key
   
   if key = "OK"
@@ -228,28 +226,50 @@ function onKeyEvent(key as string, press as boolean) as boolean
       return true
       
   else if key = "left"
+      ' **FIX: Check if we're already switching**
+      if m.isSwitching
+          print "UIStreaming: ⏳ Switch in progress, ignoring left key"
+          return true
+      end if
+      
       print "UIStreaming: ⬅️ Left pressed - switching to previous stream"
       m.isSwitching = true
       m.top.switchStream = "left"
       
-      ' Reset cooldown after delay
-      timer = createObject("roSGNode", "Timer")
-      timer.duration = m.switchCooldown / 1000.0
-      timer.observeField("fire", "onSwitchCooldownComplete")
-      timer.control = "start"
+      ' **FIX: Start cooldown timer**
+      if m.switchTimer <> invalid
+          m.switchTimer.unobserveField("fire")
+          m.switchTimer.control = "stop"
+      end if
+      
+      m.switchTimer = createObject("roSGNode", "Timer")
+      m.switchTimer.duration = m.switchCooldown / 1000.0
+      m.switchTimer.observeField("fire", "onSwitchCooldownComplete")
+      m.switchTimer.control = "start"
       
       return true
       
   else if key = "right"
+      ' **FIX: Check if we're already switching**
+      if m.isSwitching
+          print "UIStreaming: ⏳ Switch in progress, ignoring right key"
+          return true
+      end if
+      
       print "UIStreaming: ➡️ Right pressed - switching to next stream"
       m.isSwitching = true
       m.top.switchStream = "right"
       
-      ' Reset cooldown after delay
-      timer = createObject("roSGNode", "Timer")
-      timer.duration = m.switchCooldown / 1000.0
-      timer.observeField("fire", "onSwitchCooldownComplete")
-      timer.control = "start"
+      ' **FIX: Start cooldown timer**
+      if m.switchTimer <> invalid
+          m.switchTimer.unobserveField("fire")
+          m.switchTimer.control = "stop"
+      end if
+      
+      m.switchTimer = createObject("roSGNode", "Timer")
+      m.switchTimer.duration = m.switchCooldown / 1000.0
+      m.switchTimer.observeField("fire", "onSwitchCooldownComplete")
+      m.switchTimer.control = "start"
       
       return true
       
@@ -268,7 +288,23 @@ function onKeyEvent(key as string, press as boolean) as boolean
   
   return false
 end function
-sub onSwitchCooldownComplete()
-  print "UIStreaming: ✅ Switch cooldown complete - ready for next switch"
-  m.isSwitching = false
+
+sub onSwitchCooldownComplete(event)
+    print "UIStreaming: ✅ Switch cooldown complete - ready for next switch"
+    m.isSwitching = false
+    
+    ' **FIX: Clear the switchStream field to prevent duplicate switches**
+    m.top.switchStream = ""
+    
+    ' **FIX: Properly clean up the timer**
+    if event <> invalid
+        timer = event.getRoSGNode()
+        if timer <> invalid
+            timer.unobserveField("fire")
+            timer.control = "stop"
+        end if
+    end if
+    
+    ' **FIX: Clear timer reference**
+    m.switchTimer = invalid
 end sub

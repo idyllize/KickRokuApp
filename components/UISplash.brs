@@ -2,7 +2,7 @@ sub init()
   print "UISplash: Initializing..."
   
   ' **ENTERPRISE: Initialize stream checking**
-  m.streamersToCheck = ["AdinRoss", "n3on", "cheesur", "cuffem", "tectone", "Kaysan", "Konvy", "Trainwreckstv", "LosPollosTV", "asmongold", "sweatergxd"]
+  m.streamersToCheck = ["cheesur", "cuffem", "Adinross", "iceposeidon", "BigEx", "fishtank", "JakeFuture27", "chickenandy", "n3on", "tectone", "Kaysan", "Konvy", "Trainwreckstv", "LosPollosTV", "asmongold", "sweatergxd"]
   m.currentStreamerIndex = 0
   m.liveStreamers = []
   m.streamData = {}

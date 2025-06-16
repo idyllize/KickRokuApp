@@ -138,46 +138,80 @@ sub onStreamingBack()
   print "StreamScene: ⬅️ Back from streaming - returning to home"
   showHome()
 end sub
-
 sub onStreamSwitch()
   switchDirection = m.streaming.switchStream
-  print "StreamScene: 🔄 Stream switch requested: " + switchDirection
+  print "StreamScene: Stream switch requested: " + switchDirection
+debugStreamList()  
   
-  if m.streamList.count() = 0
+  ' **COMPREHENSIVE VALIDATION**
+  if m.streamList = invalid or m.streamList.count() = 0
       print "StreamScene: ❌ No streams available for switching"
       return
   end if
   
-  ' **ENTERPRISE: Calculate new stream index**
+  ' **FIX: Ensure current index is valid before switching**
+  if m.currentStreamIndex < 0
+      m.currentStreamIndex = 0
+      print "StreamScene: 🔧 Reset invalid index to 0"
+  else if m.currentStreamIndex >= m.streamList.count()
+      m.currentStreamIndex = m.streamList.count() - 1
+      print "StreamScene: 🔧 Reset out-of-bounds index to last stream"
+  end if
+  
+  ' **DEBUG: Show current state**
+  print "StreamScene: 🔍 BEFORE - Index: " + m.currentStreamIndex.toStr() + " of " + m.streamList.count().toStr() + " streams"
+  print "StreamScene: 🔍 BEFORE - Current stream: " + m.streamList[m.currentStreamIndex].name
+  
+  ' **CALCULATE NEW INDEX WITH PROPER BOUNDS CHECKING**
+  newIndex = m.currentStreamIndex
+  
   if switchDirection = "right"
       ' **NEXT STREAM**
-      m.currentStreamIndex = m.currentStreamIndex + 1
-      if m.currentStreamIndex >= m.streamList.count()
-          m.currentStreamIndex = 0  ' Loop back to first stream
+      newIndex = newIndex + 1
+      if newIndex >= m.streamList.count()
+          newIndex = 0  ' Loop back to first stream
       end if
-      print "StreamScene: ➡️ Switching to NEXT stream (index " + m.currentStreamIndex.toStr() + ")"
+      print "StreamScene: ➡️ Switching RIGHT from " + m.currentStreamIndex.toStr() + " to " + newIndex.toStr()
       
   else if switchDirection = "left"
       ' **PREVIOUS STREAM**
-      m.currentStreamIndex = m.currentStreamIndex - 1
-      if m.currentStreamIndex < 0
-          m.currentStreamIndex = m.streamList.count() - 1  ' Loop to last stream
+      newIndex = newIndex - 1
+      if newIndex < 0
+          newIndex = m.streamList.count() - 1  ' Go to last stream
       end if
-      print "StreamScene: ⬅️ Switching to PREVIOUS stream (index " + m.currentStreamIndex.toStr() + ")"
+      print "StreamScene: ⬅️ Switching LEFT from " + m.currentStreamIndex.toStr() + " to " + newIndex.toStr()
+  else
+      print "StreamScene: ❌ Invalid switch direction: " + switchDirection
+      return
   end if
   
-  ' **ENTERPRISE: Load the new stream**
-  if m.currentStreamIndex >= 0 and m.currentStreamIndex < m.streamList.count()
-      newStream = m.streamList[m.currentStreamIndex]
-      print "StreamScene: 🔄 Loading new stream: " + newStream.name
-      print "StreamScene: 🔄 New URL: " + left(newStream.url, 100) + "..."
-      
-      ' **ENTERPRISE: Update streaming with new stream**
-      m.streaming.streamUrl = newStream.url
-      m.streaming.streamName = "@" + newStream.name
-      
-      print "StreamScene: ✅ Stream switch complete!"
+  ' **VALIDATE NEW INDEX**
+  if newIndex < 0 or newIndex >= m.streamList.count()
+      print "StreamScene: ❌ Calculated invalid new index: " + newIndex.toStr()
+      return
   end if
+  
+  ' **UPDATE CURRENT INDEX**
+  m.currentStreamIndex = newIndex
+  
+  ' **DEBUG: Show new state**
+  print "StreamScene: 🎯 AFTER - New index: " + m.currentStreamIndex.toStr()
+  print "StreamScene: 🎯 AFTER - New stream: " + m.streamList[m.currentStreamIndex].name
+  
+  ' **LOAD THE NEW STREAM - GUARANTEED VALID INDEX**
+  currentStream = m.streamList[m.currentStreamIndex]
+  
+  print "StreamScene: 🔄 Loading stream: " + currentStream.name
+  print "StreamScene: 🔄 Stream URL: " + left(currentStream.url, 100) + "..."
+  
+  ' **SET THE NEW STREAM DATA**
+    m.streaming.streamUrl = currentStream.url
+    m.streaming.streamName = "@" + currentStream.name
+    
+    print "StreamScene: ✅ Stream switch complete! Now on stream " + (m.currentStreamIndex + 1).toStr() + " of " + m.streamList.count().toStr()
+    
+    ' **FIX: Clear the switch request to prevent duplicate processing**
+    m.streaming.switchStream = ""
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
@@ -200,3 +234,19 @@ function onKeyEvent(key as string, press as boolean) as boolean
   
   return false
 end function
+
+sub debugStreamList()
+  print "StreamScene: === STREAM LIST DEBUG ==="
+  if m.streamList <> invalid
+      print "StreamScene: Total streams: " + m.streamList.count().toStr()
+      for i = 0 to m.streamList.count() - 1
+          stream = m.streamList[i]
+          marker = ""
+          if i = m.currentStreamIndex then marker = " <- CURRENT"
+          print "StreamScene: [" + i.toStr() + "] " + stream.name + marker
+      end for
+  else
+      print "StreamScene: ❌ Stream list is invalid"
+  end if
+  print "StreamScene: === END DEBUG ==="
+end sub

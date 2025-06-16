@@ -16,11 +16,11 @@
        text="KICK" 
        width="1280" 
        height="100"
-       translation="[0, 0]"
+       translation="[-5, 0]"
        horizAlign="center" 
        vertAlign="center"
        font="font:LargeSystemFont" 
-       color="0xFFFFFFFF" />
+       color="0x53FC18FF" />
   
   <!-- SUBTITLE -->
   <Label id="subtitle" 
@@ -31,7 +31,7 @@
          horizAlign="center" 
          vertAlign="center"
          font="font:LargeSystemFont" 
-         color="0xFFFFFFFF" />
+         color="0xF0F0F0FF" />
 </Group>
 
 <!-- INSTRUCTIONS SECTION -->
@@ -55,19 +55,19 @@
          horizAlign="center" 
          vertAlign="center"
          font="font:MediumSystemFont" 
-         color="0xCCCCCCFF" />
+         color="0xB3B3CCFF" />
 </Group>
 
-<!-- HIDDEN STREAM LIST (Only visible after loading) -->
+<!-- COMPLETELY HIDDEN BUT WORKING -->
 <RowList id="streamList" 
-         translation="[40, 450]"
+         translation="[-100, -100]"         
          itemComponentName="StreamListItem"
          numRows="1"
-         rowHeights="[300]"
-         rowItemSize="[[330, 300]]"
-         itemSpacing="[20, 0]"
+         rowHeights="[1]"
+         rowItemSize="[[1, 1]]"
+         itemSpacing="[0, 0]"
          showRowLabel="[false]"
-         visible="false" />
+         visible="true" />       
 
 <!-- STATUS LABELS (Hidden initially) -->
 <Label id="liveStatus" 
@@ -89,7 +89,7 @@
        horizAlign="center" 
        vertAlign="center"
        font="font:SmallSystemFont" 
-       color="0xCCCCCCFF" 
+       color="0xB3B3CCFF" 
        visible="false" />
 
 <Label id="instructions" 
