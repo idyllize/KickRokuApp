@@ -3,726 +3,916 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KickRokuApp - Professional Kick.com Streaming for Roku</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <meta name="description" content="KickRokuApp: Transform your Roku into a premium Kick.com streaming platform with seamless integration, TV-optimized performance, and professional-grade features.">
+  <meta name="keywords" content="Roku, Kick.com, streaming, TV app, live streaming, channel app, entertainment">
+  <meta name="author" content="KickRokuApp Team">
+  <meta property="og:title" content="KickRokuApp - Premium Streaming for Roku">
+  <meta property="og:description" content="Transform your Roku into a premium Kick.com streaming platform with seamless integration and TV-optimized performance.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://kickrokuapp.com">
+  <meta property="og:image" content="https://kickrokuapp.com/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="KickRokuApp - Premium Streaming for Roku">
+  <meta name="twitter:description" content="Transform your Roku into a premium Kick.com streaming platform with seamless integration and TV-optimized performance.">
+  <meta name="twitter:image" content="https://kickrokuapp.com/twitter-image.jpg">
+  <title>KickRokuApp - Premium Streaming for Roku</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-      :root {
-          --kick-green: #53fc18;
-          --kick-dark-green: #3dd80a;
-          --kick-bg-dark: #0f0f23;
-          --kick-bg-darker: #0a0a1a;
-          --kick-purple: #6441a4;
-          --kick-blue: #1e1e3f;
-          --kick-gray: #2a2a3e;
-          --kick-light-gray: #3a3a4e;
-          --kick-text: #ffffff;
-          --kick-text-muted: #b3b3cc;
-          --kick-accent: #ff6b35;
-          --shadow-light: rgba(83, 252, 24, 0.1);
-          --shadow-medium: rgba(83, 252, 24, 0.2);
-          --shadow-heavy: rgba(0, 0, 0, 0.5);
-          --gradient-primary: linear-gradient(135deg, var(--kick-green) 0%, var(--kick-dark-green) 100%);
-          --gradient-bg: linear-gradient(135deg, var(--kick-bg-dark) 0%, var(--kick-bg-darker) 100%);
-          --gradient-card: linear-gradient(145deg, var(--kick-gray) 0%, var(--kick-light-gray) 100%);
-      }
+    :root {
+      --primary-green: #2dd4bf;
+      --secondary-green: #14b8a6;
+      --accent-green: #0d9488;
+      --bg-dark: #0f172a;
+      --bg-darker: #0b1221;
+      --bg-card: #1e293b;
+      --bg-card-hover: #334155;
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --border-subtle: #334155;
+      --shadow-sm: rgba(45, 212, 191, 0.1);
+      --shadow-md: rgba(45, 212, 191, 0.15);
+      --shadow-lg: rgba(45, 212, 191, 0.25);
+      --shadow-xl: rgba(0, 0, 0, 0.3);
+      --gradient-primary: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+      --gradient-bg: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
+      --gradient-card: linear-gradient(145deg, var(--bg-card) 0%, var(--bg-card-hover) 100%);
+      --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
 
-      * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-      }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-      body {
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-          line-height: 1.6;
-          color: var(--kick-text);
-          background: var(--gradient-bg);
-          min-height: 100vh;
-          overflow-x: hidden;
-      }
-.watermark {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(83, 252, 24, 0.1);
-    border: 1px solid var(--kick-green);
-    color: var(--kick-green);
-    padding: 8px 16px;
-    border-radius: 25px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    backdrop-filter: blur(10px);
-    z-index: 1000;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(83, 252, 24, 0.2);
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-.watermark:hover {
-    background: rgba(83, 252, 24, 0.2);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(83, 252, 24, 0.3);
-}
-      .animated-bg {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: -1;
-          background: var(--kick-bg-dark);
-          overflow: hidden;
-      }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--gradient-bg);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
 
-      .animated-bg::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 200%;
-          height: 200%;
-          background: 
-              radial-gradient(circle at 20% 50%, rgba(83, 252, 24, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(100, 65, 164, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 40% 80%, rgba(255, 107, 53, 0.1) 0%, transparent 50%);
-          animation: float 20s ease-in-out infinite;
-      }
+    /* Animated Background */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: var(--bg-dark);
+      overflow: hidden;
+    }
 
-      @keyframes float {
-          0%, 100% { transform: translate(-50px, -50px) rotate(0deg); }
-          33% { transform: translate(50px, -100px) rotate(120deg); }
-          66% { transform: translate(-100px, 50px) rotate(240deg); }
-      }
+    .animated-bg::before,
+    .animated-bg::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.35;
+      filter: blur(2px);
+      animation: particle-glow 35s ease-in-out infinite;
+    }
 
-      .container {
-          max-width: 1400px;
-          margin: 0 auto;
-          padding: 0 20px;
-      }
+    .animated-bg::before {
+      width: 450px;
+      height: 450px;
+      top: 15%;
+      left: 8%;
+      background: radial-gradient(circle, var(--primary-green) 0%, transparent 70%);
+      animation-delay: -10s;
+    }
 
-      .hero {
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          position: relative;
-          padding: 100px 0;
-      }
+    .animated-bg::after {
+      width: 550px;
+      height: 550px;
+      top: 55%;
+      right: 12%;
+      background: radial-gradient(circle, var(--secondary-green) 0%, transparent 70%);
+      animation-delay: -20s;
+    }
 
-      .hero-content {
-          max-width: 900px;
-          z-index: 2;
-          position: relative;
-      }
+    .floating-particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
 
-      .logo-container {
-          margin-bottom: 40px;
-          position: relative;
-      }
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: var(--accent-green);
+      border-radius: 50%;
+      opacity: 0.5;
+      animation: float-particle 25s linear infinite;
+    }
 
-      .logo {
-          width: 140px;
-          height: 140px;
-          background: var(--gradient-primary);
-          border-radius: 50%;
-          margin: 0 auto;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 60px;
-          box-shadow: 
-              0 0 60px var(--shadow-medium),
-              0 20px 40px var(--shadow-heavy);
-          animation: pulse 3s ease-in-out infinite;
-          position: relative;
-      }
+    .particle:nth-child(1) { left: 15%; animation-delay: 0s; }
+    .particle:nth-child(2) { left: 25%; animation-delay: -3s; }
+    .particle:nth-child(3) { left: 35%; animation-delay: -6s; }
+    .particle:nth-child(4) { left: 45%; animation-delay: -9s; }
+    .particle:nth-child(5) { left: 55%; animation-delay: -12s; }
+    .particle:nth-child(6) { left: 65%; animation-delay: -15s; }
+    .particle:nth-child(7) { left: 75%; animation-delay: -18s; }
+    .particle:nth-child(8) { left: 85%; animation-delay: -21s; }
 
-      .logo::before {
-          content: '';
-          position: absolute;
-          top: -10px;
-          left: -10px;
-          right: -10px;
-          bottom: -10px;
-          background: var(--gradient-primary);
-          border-radius: 50%;
-          opacity: 0.3;
-          animation: pulse-ring 3s ease-in-out infinite;
-      }
+    @keyframes particle-glow {
+      0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.35; }
+      25% { transform: translate(200px, -200px) scale(1.4) rotate(90deg); opacity: 0.5; }
+      50% { transform: translate(350px, -100px) scale(0.9) rotate(180deg); opacity: 0.3; }
+      75% { transform: translate(150px, 150px) scale(1.2) rotate(270deg); opacity: 0.45; }
+    }
 
-      @keyframes pulse {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.05); }
-      }
+    @keyframes float-particle {
+      0% { transform: translateY(100vh) scale(0); opacity: 0; }
+      10% { opacity: 0.5; }
+      90% { opacity: 0.5; }
+      100% { transform: translateY(-100vh) scale(0.8); opacity: 0; }
+    }
 
-      @keyframes pulse-ring {
-          0% { transform: scale(1); opacity: 0.3; }
-          50% { transform: scale(1.1); opacity: 0.1; }
-          100% { transform: scale(1.2); opacity: 0; }
-      }
+    /* Navigation */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(11, 18, 33, 0.95);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid var(--border-subtle);
+      z-index: 1000;
+      padding: 1rem 0;
+      transition: var(--transition-smooth);
+      animation: slideDown 0.8s ease-out 0.5s forwards;
+    }
 
-      .hero h1 {
-          font-size: clamp(3rem, 8vw, 5rem);
-          font-weight: 900;
-          margin-bottom: 30px;
-          background: var(--gradient-primary);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          line-height: 1.1;
-      }
+    @keyframes slideDown {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
 
-      .hero-subtitle {
-          font-size: clamp(1.1rem, 3vw, 1.4rem);
-          color: var(--kick-text-muted);
-          margin-bottom: 50px;
-          max-width: 700px;
-          margin-left: auto;
-          margin-right: auto;
-          font-weight: 400;
-      }
+    .nav-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-      .status-badges {
-          display: flex;
-          justify-content: center;
-          gap: 15px;
-          flex-wrap: wrap;
-          margin-bottom: 50px;
-      }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
 
-      .badge {
-          background: rgba(83, 252, 24, 0.1);
-          border: 1px solid var(--kick-green);
-          color: var(--kick-green);
-          padding: 12px 20px;
-          border-radius: 50px;
-          font-size: 0.9rem;
-          font-weight: 600;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          transition: all 0.3s ease;
-          backdrop-filter: blur(10px);
-      }
+    .nav-logo-icon {
+      width: 30px;
+      height: 30px;
+      background: var(--gradient-primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
 
-      .badge:hover {
-          background: rgba(83, 252, 24, 0.2);
-          transform: translateY(-2px);
-          box-shadow: 0 10px 25px rgba(83, 252, 24, 0.2);
-      }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
 
-      .cta-section {
-          display: flex;
-          justify-content: center;
-          gap: 20px;
-          flex-wrap: wrap;
-      }
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.875rem;
+      transition: var(--transition-fast);
+      position: relative;
+    }
 
-      .btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 12px;
-          padding: 18px 35px;
-          border-radius: 50px;
-          text-decoration: none;
-          font-weight: 700;
-          font-size: 1.1rem;
-          transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
-      }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gradient-primary);
+      transition: var(--transition-fast);
+    }
 
-      .btn-primary {
-          background: var(--gradient-primary);
-          color: var(--kick-bg-dark);
-          box-shadow: 0 10px 30px rgba(83, 252, 24, 0.3);
-      }
+    .nav-link:hover,
+    .nav-link:focus {
+      color: var(--primary-green);
+    }
 
-      .btn-primary:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 15px 40px rgba(83, 252, 24, 0.4);
-      }
+    .nav-link:hover::after,
+    .nav-link:focus::after {
+      width: 100%;
+    }
 
-      .btn-secondary {
-          background: rgba(255, 255, 255, 0.1);
-          color: var(--kick-text);
-          border: 2px solid rgba(255, 255, 255, 0.2);
-          backdrop-filter: blur(10px);
-      }
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
 
-      .btn-secondary:hover {
-          background: rgba(255, 255, 255, 0.2);
-          border-color: var(--kick-green);
-          transform: translateY(-3px);
-          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-      }
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 0 80px;
+      position: relative;
+      z-index: 1;
+    }
 
-      .section {
-          padding: 100px 0;
-          position: relative;
-      }
+    .hero-content {
+      max-width: 760px;
+      animation: fadeInUp 1s ease-out 0.8s both;
+    }
 
-      .section-title {
-          font-size: clamp(2.5rem, 6vw, 3.5rem);
-          font-weight: 800;
-          text-align: center;
-          margin-bottom: 30px;
-          background: var(--gradient-primary);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-      }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-      .section-subtitle {
-          font-size: clamp(1rem, 2.5vw, 1.3rem);
-          color: var(--kick-text-muted);
-          text-align: center;
-          max-width: 800px;
-          margin: 0 auto 60px;
+    .logo-container {
+      margin-bottom: 28px;
+    }
+
+    .logo {
+      width: 100px;
+      height: 100px;
+      background: var(--gradient-primary);
+      border-radius: 50%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      box-shadow: 0 8px 24px var(--shadow-md);
+      transition: var(--transition-bounce);
+      animation: logoFloat 5s ease-in-out infinite;
+    }
+
+    .logo:hover {
+      transform: scale(1.08);
+    }
+
+    @keyframes logoFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.75rem, 6vw, 4rem);
+      font-weight: 800;
+      margin-bottom: 20px;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--text-secondary);
+      margin-bottom: 36px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    .cta-section {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fadeInUp 1s ease-out 1s both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      transition: var(--transition-smooth);
+      will-change: transform, box-shadow;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+      transition: left 0.4s;
+    }
+
+    .btn:hover::before,
+    .btn:focus::before {
+      left: 100%;
+    }
+
+    .btn-primary {
+      background: var(--gradient-primary);
+      color: var(--bg-dark);
+      box-shadow: 0 4px 12px var(--shadow-md);
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px var(--shadow-lg);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--text-secondary);
+    }
+
+    .btn-secondary:hover,
+    .btn-secondary:focus {
+      background: var(--primary-green);
+      color: var(--bg-dark);
+      border-color: var(--primary-green);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px var(--shadow-md);
+    }
+
+    /* Features Section */
+    .section {
+      padding: 80px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 20px;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+      font-size: clamp(0.9375rem, 2vw, 1.125rem);
+      color: var(--text-secondary);
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 48px;
+      font-weight: 400;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      padding: 32px;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      transition: var(--transition-smooth);
+      text-align: center;
+      will-change: transform;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px var(--shadow-lg);
+      border-color: var(--primary-green);
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+      color: var(--primary-green);
+      transition: var(--transition-fast);
+    }
+
+    .feature-card:hover .feature-icon {
+      transform: scale(1.1);
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .feature-card p {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    /* UI Showcase Section */
+    .ui-showcase {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 48px;
+      margin: 48px 0;
+      border: 1px solid var(--border-subtle);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ui-showcase::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient-primary);
+    }
+
+    .app-flow {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .flow-stage {
+      background: var(--bg-darker);
+      border-radius: 12px;
+      padding: 28px;
+      text-align: center;
+      border: 1px solid var(--border-subtle);
+      transition: var(--transition-smooth);
+    }
+
+    .flow-stage:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px var(--shadow-lg);
+      border-color: var(--primary-green);
+    }
+
+    .stage-number {
+      width: 40px;
+      height: 40px;
+      background: var(--gradient-primary);
+      color: var(--bg-dark);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.125rem;
+      margin: 0 auto 16px;
+    }
+
+    .stage-icon {
+      font-size: 2rem;
+      margin-bottom: 16px;
+      color: var(--primary-green);
+    }
+
+    .stage-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .stage-description {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    /* Installation Section */
+    .installation-section {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 48px;
+      margin: 48px 0;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .installation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .install-step {
+      background: var(--bg-darker);
+      padding: 28px;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      transition: var(--transition-smooth);
+      position: relative;
+    }
+
+    .install-step:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px var(--shadow-lg);
+    }
+
+    .step-number {
+      position: absolute;
+      top: -12px;
+      left: 24px;
+      width: 36px;
+      height: 36px;
+      background: var(--gradient-primary);
+      color: var(--bg-dark);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .install-step h3 {
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      font-weight: 600;
+      font-size: 1.125rem;
+    }
+
+    .install-step p {
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 12px;
+      font-size: 0.875rem;
+    }
+
+    .code-snippet {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-size: 0.8125rem;
+      color: var(--primary-green);
+      overflow-x: auto;
+    }
+
+    /* Stats Section */
+    .stats-section {
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      padding: 32px;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px var(--shadow-lg);
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--primary-green);
+      margin-bottom: 8px;
+      line-height: 1;
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-size: 0.9375rem;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--bg-darker);
+      padding: 64px 0 32px;
+      text-align: center;
+      border-top: 1px solid var(--border-subtle);
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-content {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.875rem;
+      transition: var(--transition-fast);
+    }
+
+    .footer-link:hover,
+    .footer-link:focus {
+      color: var(--primary-green);
+    }
+
+    .footer-text {
+      color: var(--text-muted);
+      font-size: 0.8125rem;
+      margin-bottom: 16px;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: var(--transition-smooth);
+      font-size: 1rem;
+    }
+
+    .social-link:hover,
+    .social-link:focus {
+      background: var(--gradient-primary);
+      color: var(--bg-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--shadow-md);
+    }
+
+    /* Scroll to Top Button */
+    .scroll-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 48px;
+      height: 48px;
+      background: var(--gradient-primary);
+      border: none;
+      border-radius: 50%;
+      color: var(--bg-dark);
+      font-size: 1.125rem;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      opacity: 0;
+      visibility: hidden;
+      z-index: 1000;
+      box-shadow: 0 4px 12px var(--shadow-md);
+    }
+
+    .scroll-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .scroll-top:hover,
+    .scroll-top:focus {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px var(--shadow-lg);
+    }
+
+    /* Accessibility */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .nav-links {
+        gap: 20px;
       }
 
       .features-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-          gap: 30px;
-          margin-top: 60px;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       }
 
-      .feature-card {
-          background: var(--gradient-card);
-          padding: 40px 30px;
-          border-radius: 20px;
-          border: 1px solid rgba(83, 252, 24, 0.1);
-          transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
+      .app-flow {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: 100px 0 64px;
       }
 
-      .feature-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 4px;
-          background: var(--gradient-primary);
-          transform: scaleX(0);
-          transition: transform 0.3s ease;
+      .section {
+        padding: 64px 0;
       }
 
-      .feature-card:hover {
-          transform: translateY(-10px);
-          box-shadow: 0 25px 50px rgba(83, 252, 24, 0.15);
-          border-color: var(--kick-green);
+      .navbar {
+        padding: 0.75rem 0;
       }
 
-      .feature-card:hover::before {
-          transform: scaleX(1);
+      .nav-links {
+        gap: 16px;
       }
 
-      .feature-icon {
-          font-size: 3rem;
-          margin-bottom: 25px;
-          /* Remove gradient effect from emojis to keep natural colors */
-          color: inherit;
+      .nav-link {
+        font-size: 0.8125rem;
       }
 
-      .feature-card h3 {
-          font-size: 1.5rem;
-          font-weight: 700;
-          margin-bottom: 15px;
-          color: var(--kick-text);
-      }
-
-      .feature-card p {
-          color: var(--kick-text-muted);
-          line-height: 1.7;
-      }
-
-      .ui-showcase {
-          background: rgba(42, 42, 62, 0.3);
-          border-radius: 30px;
-          padding: 60px 40px;
-          margin: 60px 0;
-          border: 1px solid rgba(83, 252, 24, 0.1);
-          backdrop-filter: blur(20px);
-      }
-
-      .mockup-container {
-          max-width: 1000px;
-          margin: 0 auto;
-          position: relative;
-      }
-
-      .mockup-frame {
-          background: var(--kick-bg-darker);
-          border-radius: 20px;
-          padding: 30px;
-          box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
-          border: 2px solid var(--kick-gray);
-      }
-
-      .mockup-grid {
-          display: grid;
-          grid-template-columns: 280px 1fr;
-          grid-template-rows: 1fr 200px;
-          gap: 20px;
-          height: 500px;
-      }
-
-      .mockup-panel {
-          border-radius: 15px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
-          border: 1px solid rgba(83, 252, 24, 0.2);
-      }
-
-      .mockup-panel:hover {
-          transform: scale(1.02);
-          box-shadow: 0 15px 30px rgba(83, 252, 24, 0.2);
-      }
-
-      .sidebar-panel {
-          grid-row: 1 / 3;
-          background: linear-gradient(145deg, #1e2a44, #2a3a54);
-      }
-
-      .video-panel {
-          background: linear-gradient(145deg, var(--kick-purple), var(--kick-blue));
-          position: relative;
-      }
-
-      .video-panel::before {
-          content: '▶';
-          position: absolute;
-          font-size: 4rem;
-          color: var(--kick-green);
-          opacity: 0.8;
-      }
-
-      .bottom-panels {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 20px;
-      }
-
-      .chat-panel {
-          background: linear-gradient(145deg, var(--kick-green), var(--kick-dark-green));
-          color: var(--kick-bg-dark);
-      }
-
-      .info-panel {
-          background: linear-gradient(145deg, var(--kick-accent), #ff8c42);
-      }
-
-      .panel-content h4 {
-          font-size: 1.2rem;
-          font-weight: 700;
-          margin-bottom: 8px;
-      }
-
-      .panel-content p {
-          font-size: 0.9rem;
-          opacity: 0.9;
-      }
-
-      .panel-icon {
-          font-size: 2.5rem;
-          margin-bottom: 15px;
-          display: block;
-          /* Keep natural emoji colors */
-          color: inherit;
-      }
-
-      .metrics-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 25px;
-          margin: 60px 0;
-      }
-
-      .metric-card {
-          background: var(--gradient-card);
-          padding: 30px;
-          border-radius: 20px;
-          text-align: center;
-          border: 1px solid rgba(83, 252, 24, 0.1);
-          transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
-      }
-
-      .metric-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 3px;
-          background: var(--gradient-primary);
-      }
-
-      .metric-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 20px 40px rgba(83, 252, 24, 0.15);
-      }
-
-      .metric-value {
-          font-size: 2.5rem;
-          font-weight: 900;
-          color: var(--kick-green);
-          margin-bottom: 10px;
-      }
-
-      .metric-label {
-          color: var(--kick-text-muted);
-          font-weight: 600;
-          font-size: 0.95rem;
+      .features-grid {
+        grid-template-columns: 1fr;
       }
 
       .installation-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 30px;
-          margin: 60px 0;
+        grid-template-columns: 1fr;
       }
 
-      .step-card {
-          background: var(--gradient-card);
-          padding: 40px 30px;
-          border-radius: 20px;
-          position: relative;
-          border: 1px solid rgba(83, 252, 24, 0.1);
-          transition: all 0.3s ease;
+      .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       }
 
-      .step-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 20px 40px rgba(83, 252, 24, 0.15);
-      }
-
-      .step-number {
-          position: absolute;
-          top: -15px;
-          left: 30px;
-          width: 40px;
-          height: 40px;
-          background: var(--gradient-primary);
-          color: var(--kick-bg-dark);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: 900;
-          font-size: 1.2rem;
-      }
-
-      .step-card h3 {
-          margin-bottom: 15px;
-          color: var(--kick-text);
-          font-weight: 700;
-      }
-
-      .step-card p {
-          color: var(--kick-text-muted);
-          line-height: 1.6;
-      }
-
-      .code-section {
-          margin: 60px 0;
-      }
-
-      .code-block {
-          background: var(--kick-bg-darker);
-          border: 1px solid var(--kick-gray);
-          border-radius: 15px;
-          padding: 30px;
-          overflow-x: auto;
-          position: relative;
-      }
-
-      .code-block::before {
-          content: 'bash';
-          position: absolute;
-          top: 15px;
-          right: 20px;
-          background: var(--kick-green);
-          color: var(--kick-bg-dark);
-          padding: 4px 12px;
-          border-radius: 20px;
-          font-size: 0.8rem;
-          font-weight: 600;
-      }
-
-      .code-block pre {
-          color: var(--kick-text);
-          font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-          font-size: 0.9rem;
-          line-height: 1.6;
-      }
-
-      .code-comment {
-          color: var(--kick-text-muted);
-      }
-
-      .code-command {
-          color: var(--kick-green);
-      }
-
-      .footer {
-          background: var(--kick-bg-darker);
-          padding: 80px 0 40px;
-          text-align: center;
-          border-top: 1px solid var(--kick-gray);
-      }
-
-      .footer-content {
-          max-width: 600px;
-          margin: 0 auto;
+      .cta-section {
+        flex-direction: column;
+        align-items: center;
       }
 
       .footer-links {
-          display: flex;
-          justify-content: center;
-          gap: 40px;
-          margin-bottom: 40px;
-          flex-wrap: wrap;
+        flex-direction: column;
+        gap: 16px;
       }
 
-      .footer-link {
-          color: var(--kick-text-muted);
-          text-decoration: none;
-          font-weight: 600;
-          transition: all 0.3s ease;
-          display: flex;
-          align-items: center;
-          gap: 8px;
+      .hero h1 {
+        font-size: clamp(2.25rem, 5vw, 3rem);
       }
 
-      .footer-link:hover {
-          color: var(--kick-green);
-          transform: translateY(-2px);
+      .section-title {
+        font-size: clamp(1.75rem, 4vw, 2.5rem);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 16px;
       }
 
-      .footer-text {
-          color: var(--kick-text-muted);
-          font-size: 0.9rem;
+      .logo {
+        width: 80px;
+        height: 80px;
+        font-size: 32px;
       }
 
-      @media (max-width: 768px) {
-          .hero {
-              padding: 80px 0;
-          }
-
-          .section {
-              padding: 60px 0;
-          }
-
-          .mockup-grid {
-              grid-template-columns: 1fr;
-              grid-template-rows: 120px 300px auto;
-              height: auto;
-          }
-
-          .sidebar-panel {
-              grid-row: 1;
-          }
-
-          .bottom-panels {
-              grid-template-columns: 1fr;
-          }
-
-          .features-grid {
-              grid-template-columns: 1fr;
-          }
-
-          .metrics-grid {
-              grid-template-columns: repeat(2, 1fr);
-          }
-
-          .installation-grid {
-              grid-template-columns: 1fr;
-          }
-
-          .cta-section {
-              flex-direction: column;
-              align-items: center;
-          }
-
-          .footer-links {
-              flex-direction: column;
-              gap: 20px;
-          }
+      .hero h1 {
+        font-size: clamp(1.75rem, 4.5vw, 2.5rem);
       }
 
-      @media (max-width: 480px) {
-          .container {
-              padding: 0 20px;
-          }
-
-          .metrics-grid {
-              grid-template-columns: 1fr;
-          }
-
-          .hero h1 {
-              font-size: 2.5rem;
-          }
-
-          .section-title {
-              font-size: 2rem;
-          }
+      .section-title {
+        font-size: clamp(1.5rem, 3.5vw, 2rem);
       }
+
+      .hero-subtitle {
+        font-size: clamp(0.875rem, 1.8vw, 1rem);
+      }
+
+      .btn {
+        padding: 10px 20px;
+        font-size: 0.875rem;
+      }
+
+      .feature-card {
+        padding: 24px;
+      }
+
+      .ui-showcase,
+      .installation-section {
+        padding: 32px;
+      }
+
+      .stat-value {
+        font-size: 2rem;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="animated-bg"></div>
+  <div class="animated-bg">
+    <div class="floating-particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar" aria-label="Main navigation">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">
+        <div class="nav-logo-icon">📺</div>
+        KickRokuApp
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features" class="nav-link">Features</a></li>
+        <li><a href="#interface" class="nav-link">Interface</a></li>
+        <li><a href="#installation" class="nav-link">Installation</a></li>
+        <li><a href="#stats" class="nav-link">Stats</a></li>
+      </ul>
+    </div>
+  </nav>
 
   <!-- Hero Section -->
-  <section class="hero">
+  <section class="hero" aria-labelledby="hero-title">
     <div class="container">
       <div class="hero-content">
         <div class="logo-container">
-          <div class="logo">📺</div>
+          <div class="logo" aria-hidden="true">📺</div>
         </div>
-        
-        <h1>KickRokuApp</h1>
+        <h1 id="hero-title">KickRokuApp</h1>
         <p class="hero-subtitle">
-          Transform your Roku into the ultimate Kick.com streaming powerhouse. Experience seamless live streaming with automatic channel discovery, intelligent error recovery, and a remote-optimized interface designed for the big screen.
+          Transform your Roku into a premium Kick.com streaming platform with seamless integration and TV-optimized performance.
         </p>
-        
-        <div class="status-badges">
-          <div class="badge">
-            <i class="fas fa-tv"></i>
-            Roku OS 9.0+
-          </div>
-          <div class="badge">
-            <i class="fas fa-certificate"></i>
-            MIT License
-          </div>
-          <div class="badge">
-            <i class="fas fa-tag"></i>
-            v1.0.0-beta
-          </div>
-          <div class="badge">
-            <i class="fas fa-rocket"></i>
-            Active Development
-          </div>
-        </div>
-        
         <div class="cta-section">
-          <a href="https://github.com/idyllize/KickRokuApp" class="btn btn-primary">
-            <i class="fab fa-github"></i>
-            View on GitHub
+          <a href="https://github.com/idyllize/KickRokuApp" class="btn btn-primary" target="_blank" rel="noopener">
+            <i class="fab fa-github" aria-hidden="true"></i>
+            <span>View on GitHub</span>
           </a>
           <a href="#installation" class="btn btn-secondary">
-            <i class="fas fa-download"></i>
-            Get Started
+            <i class="fas fa-download" aria-hidden="true"></i>
+            <span>Get Started</span>
           </a>
         </div>
       </div>
@@ -730,188 +920,210 @@
   </section>
 
   <!-- Features Section -->
-  <section class="section">
+  <section id="features" class="section" aria-labelledby="features-title">
     <div class="container">
-      <h2 class="section-title">Powerful Features</h2>
+      <h2 id="features-title" class="section-title">Core Features</h2>
       <p class="section-subtitle">
-        Built from the ground up for television viewing with professional-grade streaming capabilities and Kick.com integration.
+        Engineered for unparalleled television streaming with advanced Kick.com integration.
       </p>
-      
       <div class="features-grid">
         <div class="feature-card">
-          <div class="feature-icon">🔴</div>
+          <div class="feature-icon" aria-hidden="true">🔴</div>
           <h3>Live Stream Discovery</h3>
-          <p>Automatically detects and lists currently active Kick.com streamers with real-time status monitoring and instant updates.</p>
+          <p>Instantly detect active Kick.com streams with real-time updates.</p>
         </div>
-        
         <div class="feature-card">
-          <div class="feature-icon">🎮</div>
-          <h3>Remote-Optimized Interface</h3>
-          <p>Multi-panel UI designed specifically for Roku remote navigation with sidebar, video, chat, and info panels for seamless control.</p>
+          <div class="feature-icon" aria-hidden="true">🎮</div>
+          <h3>TV-Optimized Interface</h3>
+          <p>Intuitive navigation designed for seamless Roku remote control.</p>
         </div>
-        
         <div class="feature-card">
-          <div class="feature-icon">⚡</div>
-          <h3>Lightning Performance</h3>
-          <p>Sub-2-second stream transitions with intelligent buffering, HLS streaming, and optimized memory management for smooth playback.</p>
+          <div class="feature-icon" aria-hidden="true">⚡</div>
+          <h3>Unmatched Performance</h3>
+          <p>Rapid stream transitions with optimized buffering and HLS streaming.</p>
         </div>
-        
         <div class="feature-card">
-          <div class="feature-icon">💬</div>
-          <h3>Live Chat Integration</h3>
-          <p>Real-time chat display alongside video streams with dedicated chat panel for full community engagement and interaction.</p>
+          <div class="feature-icon" aria-hidden="true">🛡️</div>
+          <h3>Robust Error Handling</h3>
+          <p>Automatic retries and fallback strategies for uninterrupted streaming.</p>
         </div>
-        
         <div class="feature-card">
-          <div class="feature-icon">🛡️</div>
-          <h3>Intelligent Error Recovery</h3>
-          <p>Robust error handling with automatic retry mechanisms, fallback strategies, and connection resilience for uninterrupted viewing.</p>
+          <div class="feature-icon" aria-hidden="true">🎬</div>
+          <h3>Immersive Viewing</h3>
+          <p>4K adaptive streaming for a cinematic experience on large displays.</p>
         </div>
-        
         <div class="feature-card">
-          <div class="feature-icon">📊</div>
-          <h3>Stream Analytics</h3>
-          <p>Live viewer counts, stream information, performance metrics, and detailed analytics displayed in real-time for optimal experience.</p>
+          <div class="feature-icon" aria-hidden="true">📊</div>
+          <h3>Stream Insights</h3>
+          <p>Detailed stream metadata and performance metrics for an enhanced experience.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- UI Showcase Section -->
-  <section class="section">
+  <section id="interface" class="section" aria-labelledby="ui-showcase-title">
     <div class="container">
-      <h2 class="section-title">Multi-Panel Interface</h2>
+      <h2 id="ui-showcase-title" class="section-title">Intuitive Interface</h2>
       <p class="section-subtitle">
-        Designed specifically for television viewing with optimized remote navigation and professional layout architecture.
+        A seamless, TV-optimized experience with effortless navigation and enterprise-grade performance.
       </p>
-      
       <div class="ui-showcase">
-        <div class="mockup-container">
-          <div class="mockup-frame">
-            <div class="mockup-grid">
-              <div class="mockup-panel sidebar-panel">
-                <div class="panel-content">
-                  <span class="panel-icon">☰</span>
-                  <h4>LIVE STREAMS</h4>
-                  <p>Navigation & Discovery</p>
-                </div>
-              </div>
-              
-              <div class="mockup-panel video-panel">
-                <div class="panel-content">
-                  <h4>MAIN VIDEO PLAYER</h4>
-                  <p>HLS Streaming Engine</p>
-                </div>
-              </div>
-              
-              <div class="bottom-panels">
-                <div class="mockup-panel chat-panel">
-                  <div class="panel-content">
-                    <span class="panel-icon">💬</span>
-                    <h4>LIVE CHAT</h4>
-                    <p>Real-time Messages</p>
-                  </div>
-                </div>
-                
-                <div class="mockup-panel info-panel">
-                  <div class="panel-content">
-                    <span class="panel-icon">ℹ️</span>
-                    <h4>STREAM INFO</h4>
-                    <p>Stats & Analytics</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div class="app-flow">
+          <div class="flow-stage">
+            <div class="stage-number">1</div>
+            <div class="stage-icon" aria-hidden="true">✨</div>
+            <div class="stage-title">Discovery</div>
+            <div class="stage-description">Real-time stream detection with Kick.com API integration.</div>
+          </div>
+          <div class="flow-stage">
+            <div class="stage-number">2</div>
+            <div class="stage-icon" aria-hidden="true">🏠</div>
+            <div class="stage-title">Navigation</div>
+            <div class="stage-description">Effortless navigation with Roku remote stream selection.</div>
+          </div>
+          <div class="flow-stage">
+            <div class="stage-number">3</div>
+            <div class="stage-icon" aria-hidden="true">📺</div>
+            <div class="stage-title">Streaming</div>
+            <div class="stage-description">Full-screen HLS playback with adaptive quality.</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Performance Metrics -->
-  <section class="section">
-    <div class="container">
-      <h2 class="section-title">Performance Metrics</h2>
-      <p class="section-subtitle">
-        Optimized for maximum performance and reliability on Roku devices with industry-leading streaming technology.
-      </p>
-      
-      <div class="metrics-grid">
-        <div class="metric-card">
-          <div class="metric-value">&lt;2s</div>
-          <div class="metric-label">Stream Load Time</div>
-        </div>
-        
-        <div class="metric-card">
-          <div class="metric-value">99.9%</div>
-          <div class="metric-label">Uptime Reliability</div>
-        </div>
-        
-        <div class="metric-card">
-          <div class="metric-value">4K</div>
-          <div class="metric-label">Max Resolution</div>
-        </div>
-        
-        <div class="metric-card">
-          <div class="metric-value">60fps</div>
-          <div class="metric-label">Smooth Playback</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Installation Section -->
-  <section class="section" id="installation">
+  <section id="installation" class="section installation-section" aria-labelledby="installation-title">
     <div class="container">
-      <h2 class="section-title">Quick Installation</h2>
+      <h2 id="installation-title" class="section-title">Get Started</h2>
       <p class="section-subtitle">
-        Get KickRokuApp running on your Roku device in minutes with our streamlined installation process.
+        Install KickRokuApp on your Roku device in just a few simple steps.
       </p>
-      
       <div class="installation-grid">
-        <div class="step-card">
+        <div class="install-step">
           <div class="step-number">1</div>
           <h3>Enable Developer Mode</h3>
-          <p>Navigate to Settings > System > Advanced system settings > Developer options and enable Developer mode on your Roku device.</p>
+          <p>Access your Roku's developer settings by entering the sequence: Home x3, Up x2, Right, Left, Right, Left, Right.</p>
         </div>
-        
-        <div class="step-card">
+        <div class="install-step">
           <div class="step-number">2</div>
-          <h3>Download Source Code</h3>
-          <p>Clone or download the KickRokuApp repository from GitHub to your local development machine for deployment.</p>
+          <h3>Download the App</h3>
+          <p>Clone the KickRokuApp repository from GitHub and package the app using the provided build tools.</p>
+          <div class="code-snippet">git clone https://github.com/idyllize/KickRokuApp.git</div>
         </div>
-        
-        <div class="step-card">
+        <div class="install-step">
           <div class="step-number">3</div>
-          <h3>Deploy to Roku</h3>
-          <p>Use the Roku developer tools or web interface to sideload the application directly to your Roku device for testing.</p>
-        </div>
-      </div>
-      
-      <div class="code-section">
-        <div class="code-block">
-          <pre><code><span class="code-comment"># Clone the repository</span>
-<span class="code-command">git clone https://github.com/idyllize/KickRokuApp.git</span>
-<span class="code-command">cd KickRokuApp</span>
-
-<span class="code-comment"># Package for Roku deployment</span>
-<span class="code-command">zip -r KickRokuApp.zip .</span>
-
-<span class="code-comment"># Deploy via web interface at http://roku-ip:8080</span></code></pre>
+          <h3>Install & Launch</h3>
+          <p>Upload the packaged app to your Roku device via the developer portal and launch it to start streaming.</p>
         </div>
       </div>
     </div>
   </section>
-<div class="watermark">
-    Made by Idyllize
-</div>
+
+  <!-- Stats Section -->
+  <section id="stats" class="section stats-section" aria-labelledby="stats-title">
+    <div class="container">
+      <h2 id="stats-title" class="section-title">By the Numbers</h2>
+      <p class="section-subtitle">
+        KickRokuApp delivers exceptional performance and reliability.
+      </p>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">99.9%</div>
+          <div class="stat-label">Uptime</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">&lt;2s</div>
+          <div class="stat-label">Stream Load Time</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">4K</div>
+          <div class="stat-label">Max Resolution</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">100+</div>
+          <div class="stat-label">Supported Channels</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Footer -->
-  <footer class="footer">
+  <footer class="footer" aria-labelledby="footer-title">
     <div class="container">
       <div class="footer-content">
+        <h2 id="footer-title" class="sr-only">Footer</h2>
         <div class="footer-links">
-          <a href="https://github.com/idyllize/KickRokuApp" class="footer-link">
-            <i class="fab fa-github"></i>
-            GitHub Repository
+          <a href="https://github.com/idyllize/KickRokuApp" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+          <a href="#installation" class="footer-link">Installation</a>
+          <a href="#docs" class="footer-link">Documentation</a>
+          <a href="#support" class="footer-link">Support</a>
+        </div>
+        <p class="footer-text">© 2025 KickRokuApp. All rights reserved.</p>
+        <div class="social-links">
+          <a href="https://twitter.com/kickrokuapp" class="social-link" target="_blank" rel="noopener" aria-label="Twitter">
+            <i class="fab fa-x-twitter"></i>
           </a>
-          <a href
+          <a href="https://github.com/idyllize/KickRokuApp" class="social-link" target="_blank" rel="noopener" aria-label="GitHub">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://discord.gg/kickrokuapp" class="social-link" target="_blank" rel="noopener" aria-label="Discord">
+            <i class="fab fa-discord"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-top" aria-label="Scroll to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <script>
+    // Scroll to Top Button Visibility
+    const scrollTopBtn = document.querySelector('.scroll-top');
+    window.addEventListener('scroll', () => {
+      scrollTopBtn.classList.toggle('visible', window.scrollY > 300);
+    });
+
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Lazy Load Animations
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.features-grid, .app-flow, .installation-grid, .stats-grid').forEach(element => {
+      element.classList.add('animate-on-scroll');
+      observer.observe(element);
+    });
+  </script>
+  <style>
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .animate-on-scroll.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</body>
+</html>
