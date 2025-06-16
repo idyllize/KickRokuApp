@@ -10,19 +10,19 @@
   <meta property="og:description" content="Transform your Roku into a premium Kick.com streaming platform with seamless integration and TV-optimized performance.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://kickrokuapp.me">
-  <meta property="og:image" content="https://kickrokuapp.com/og-image.jpg">
+  <meta property="og:image" content="https://kickrokuapp.me/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="KickRokuApp - Premium Streaming for Roku">
   <meta name="twitter:description" content="Transform your Roku into a premium Kick.com streaming platform with seamless integration and TV-optimized performance.">
-  <meta name="twitter:image" content="https://kickrokuapp.com/twitter-image.jpg">
+  <meta name="twitter:image" content="https://kickrokuapp.me/twitter-image.jpg">
   <title>KickRokuApp - Premium Streaming for Roku</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    /* CSS remains unchanged from the previous response */
     :root {
-      /* Updated to match Kick.com brand colors */
       --primary-green: #53fc18;
       --secondary-green: #3dd60f;
       --accent-green: #2bc70a;
@@ -71,7 +71,6 @@
       padding: 0 2rem;
     }
 
-    /* Navigation */
     .nav {
       position: fixed;
       top: 0;
@@ -205,7 +204,6 @@
       cursor: pointer;
     }
 
-    /* Hero Section */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -300,7 +298,6 @@
       transform: translateY(-2px);
     }
 
-    /* Features Section */
     .features {
       padding: 6rem 0;
       background: rgba(26, 26, 26, 0.5);
@@ -387,7 +384,6 @@
       line-height: 1.6;
     }
 
-    /* Footer */
     .footer {
       background: var(--bg-darker);
       padding: 3rem 0 1rem;
@@ -433,7 +429,6 @@
       color: var(--text-muted);
     }
 
-    /* Page styles for Privacy and Terms */
     .page {
       display: none;
       padding: 8rem 0 4rem;
@@ -492,7 +487,6 @@
       margin-bottom: 0.5rem;
     }
 
-    /* Responsive Design */
     @media (max-width: 768px) {
       .nav-links {
         display: none;
@@ -537,7 +531,6 @@
       }
     }
 
-    /* Animations */
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -553,7 +546,6 @@
       animation: fadeInUp 0.6s ease-out forwards;
     }
 
-    /* Scroll animations */
     .scroll-reveal {
       opacity: 0;
       transform: translateY(30px);
@@ -570,12 +562,12 @@
   <!-- Navigation -->
   <nav class="nav" id="navbar">
     <div class="nav-container">
-      <a href="#" class="logo" onclick="showPage('home')">KickRokuApp</a>
+      <a href="#home" class="logo" onclick="showPage('home')">KickRokuApp</a>
       <ul class="nav-links">
-        <li><a href="#" onclick="showPage('home')">Home</a></li>
+        <li><a href="#home" onclick="showPage('home')">Home</a></li>
         <li><a href="#features">Features</a></li>
-        <li><a href="#" onclick="showPage('privacy')">Privacy</a></li>
-        <li><a href="#" onclick="showPage('terms')">Terms</a></li>
+        <li><a href="#Privacy" onclick="showPage('privacy')">Privacy</a></li>
+        <li><a href="#Terms" onclick="showPage('terms')">Terms</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
       <button class="mobile-menu-btn" id="mobileMenuBtn">
@@ -587,10 +579,10 @@
         <i class="fas fa-times"></i>
       </button>
       <ul>
-        <li><a href="#" onclick="showPage('home')">Home</a></li>
+        <li><a href="#home" onclick="showPage('home')">Home</a></li>
         <li><a href="#features">Features</a></li>
-        <li><a href="#" onclick="showPage('privacy')">Privacy</a></li>
-        <li><a href="#" onclick="showPage('terms')">Terms</a></li>
+        <li><a href="#Privacy" onclick="showPage('privacy')">Privacy</a></li>
+        <li><a href="#Terms" onclick="showPage('terms')">Terms</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
@@ -683,10 +675,10 @@
           <div class="footer-section">
             <h3>Quick Links</h3>
             <div class="footer-links">
-              <a href="#" onclick="showPage('home')">Home</a>
+              <a href="#home" onclick="showPage('home')">Home</a>
               <a href="#features">Features</a>
-              <a href="#" onclick="showPage('privacy')">Privacy Policy</a>
-              <a href="#" onclick="showPage('terms')">Terms of Service</a>
+              <a href="#Privacy" onclick="showPage('privacy')">Privacy Policy</a>
+              <a href="#Terms" onclick="showPage('terms')">Terms of Service</a>
             </div>
           </div>
           <div class="footer-section">
@@ -701,10 +693,10 @@
           <div class="footer-section">
             <h3>Connect</h3>
             <div class="footer-links">
-              <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+              <a href="#"><i class="fab fa-twitter"></i> [Twitter](https://x.com/kickrokuapp)</a>
               <a href="#"><i class="fab fa-discord"></i> Discord</a>
               <a href="#"><i class="fab fa-reddit"></i> Reddit (X)</a>
-              <a href="#"><i class="fab fa-github"></i> GitHub</a>
+              <a href="#"><i class="fab fa-github"></i> [GitHub](https://github.com/idyllize/KickRokuApp)</a>
             </div>
           </div>
         </div>
@@ -792,7 +784,7 @@
 
         <h2>9. Contact Us</h2>
         <p>If you have any questions about this Privacy Policy, please contact us at:</p>
-        <p>Email: privacy@kickrokuapp.com<br>
+        <p>Email: privacy@kickrokuapp.me<br>
         Address: KickRokuApp, 123 Streaming Lane, Tech City, TC 12345, USA</p>
       </div>
     </div>
@@ -850,7 +842,7 @@
         <p>All streaming content accessed through the App is owned by Kick.com and its content creators. We do not claim ownership of any third-party content.</p>
 
         <h2>6. Privacy and Data</h2>
-        <p>Your privacy is important to us. Please review our <a href="#" onclick="showPage('privacy')">Privacy Policy</a>, which explains how we collect, use, and protect your information when you use the App.</p>
+        <p>Your privacy is important to us. Please review our <a href="#Privacy" onclick="showPage('privacy')">Privacy Policy</a>, which explains how we collect, use, and protect your information when you use the App.</p>
 
         <h2>7. Disclaimers and Limitations</h2>
         <p>The App is provided "as is" without warranties of any kind. We disclaim all warranties, express or implied, including but not limited to:</p>
@@ -887,13 +879,49 @@
 
         <h2>12. Contact Us</h2>
         <p>If you have any questions about these Terms, please contact us at:</p>
-        <p>Email: support@kickrokuapp.com<br>
+        <p>Email: support@kickrokuapp.me<br>
         Address: KickRokuApp, 123 Streaming Lane, Tech City, TC 12345, USA</p>
       </div>
     </div>
   </div>
 
   <script>
+    // Page Navigation with Hash Support
+    function showPage(pageId) {
+      // Hide all pages
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      // Show the selected page
+      const targetPage = document.getElementById(pageId);
+      if (targetPage) {
+        targetPage.classList.add('active');
+      }
+      // Update URL hash
+      const hashMap = {
+        home: 'home',
+        privacy: 'Privacy',
+        terms: 'Terms'
+      };
+      window.history.replaceState(null, '', `#${hashMap[pageId] || 'home'}`);
+      // Scroll to top smoothly
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Close mobile menu if open
+      mobileNav.classList.remove('active');
+    }
+
+    // Handle URL hash on page load
+    function handleHashNavigation() {
+      const hash = window.location.hash.replace('#', '').toLowerCase();
+      const pageMap = {
+        'home': 'home',
+        'privacy': 'privacy',
+        'terms': 'terms'
+      };
+      const pageId = pageMap[hash] || 'home';
+      showPage(pageId);
+    }
+
     // Mobile Menu Toggle
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileNav = document.getElementById('mobileNav');
@@ -913,15 +941,6 @@
         mobileNav.classList.remove('active');
       });
     });
-
-    // Page Navigation
-    function showPage(pageId) {
-      document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active');
-      });
-      document.getElementById(pageId).classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
 
     // Scroll-based Navbar Effect
     const navbar = document.getElementById('navbar');
@@ -959,6 +978,12 @@
         }
       });
     });
+
+    // Initialize page based on URL hash
+    window.addEventListener('load', handleHashNavigation);
+
+    // Handle hash changes (e.g., back/forward navigation)
+    window.addEventListener('hashchange', handleHashNavigation);
   </script>
 </body>
 </html>
