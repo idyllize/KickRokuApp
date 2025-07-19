@@ -74,35 +74,31 @@
 - ✅ **Roku Device**: Express 4K+, Streaming Stick 4K+, Ultra, or Roku TV
 - ✅ **Roku OS**: Version 9.0 or higher
 - ✅ **Network Speed**: 10 Mbps minimum (50 Mbps recommended for 4K)
-- ✅ **Developer Mode**: Enabled on your Roku
-- ✅ **Tools**: Git and a web browser
+- ✅ **Tools**: A web browser (Developer Mode optional for sideload)
 
 ### 🛠️ **Installation Steps**
 
-#### **1. Enable Developer Mode**
-```
-Navigate to: Settings → System → Advanced System Settings → Developer Options
-Enter the code displayed on your TV
-Note your Roku's IP address: Settings → Network → About
-```
+Choose one of the simple methods below to install Kick App. Both options provide the same enterprise-grade experience.
 
-#### **2. Clone & Package**
-```bash
-# Clone the repository
-git clone https://github.com/idyllize/KickRokuApp.git
-cd KickRokuApp
+#### **Option 1: Add Channel Code (Easiest - No Developer Mode Needed)**
+1. Go to [https://my.roku.com/account/add?channel=MTRQDTV](https://my.roku.com/account/add?channel=MTRQDTV) in your web browser.
+2. Sign in to your Roku account if prompted.
+3. Enter the channel code: `MTRQDTV` and click "Add Channel".
+4. On your Roku device, go to Settings → System → System Update to refresh channels.
+5. Launch Kick App from your Roku home screen.
 
-# Create deployment package
-zip -r KickApp.zip . -x "*.git*" "*.DS_Store*" "*.md" "docs/*"
-```
-
-#### **3. Deploy to Roku**
-```
-Open a browser and navigate to http://[ROKU_IP]:8080
-Upload KickApp.zip via the Roku Developer Dashboard
-Click Install when prompted
-Launch Kick App from your Roku home screen
-```
+#### **Option 2: Download & Sideload ZIP (For Custom Installs)**
+1. **Enable Developer Mode** (if not already):
+   ```
+   Navigate to: Settings → System → Advanced System Settings → Developer Options
+   Enter the code displayed on your TV
+   Note your Roku's IP address: Settings → Network → About
+   ```
+2. Download the pre-packaged ZIP file from [GitHub Releases](https://github.com/idyllize/KickRokuApp/releases) or the repository.
+3. Open a browser and navigate to `http://[ROKU_IP]:8060` (replace [ROKU_IP] with your device's IP).
+4. Upload the downloaded ZIP file via the Roku Developer Dashboard.
+5. Click Install when prompted.
+6. Launch Kick App from your Roku home screen.
 
 #### **4. Start Streaming**
 ```
@@ -257,7 +253,7 @@ end sub
 **Solutions**:
 ```bash
 # Check developer mode
-curl -I http://[ROKU_IP]:8080
+curl -I http://[ROKU_IP]:8060
 
 # Verify OS version
 # Settings → System → About
@@ -352,8 +348,6 @@ git push origin feature/your-feature
 [![📜MIT License: with Commercial Sale Restriction](https://img.shields.io/badge/License-MIT%20with%20Commercial%20Sale%20Restriction-yellow.svg)](https://github.com/idyllize/KickRokuApp/blob/main/LICENSE)
 
 Copyright (c) 2025 Idyllize
-
-
 
 ### 🔒 **Privacy & Security**
 - **🚫 No Data Collection**: Zero tracking or analytics
